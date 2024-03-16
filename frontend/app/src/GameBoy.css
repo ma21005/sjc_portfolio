@@ -16,7 +16,8 @@
     justify-content: space-around;
     align-items: center;
     border: solid #707070;
-    border-width: 2px 2px 3px 2px;
+    border-width: 2px 2px 1px 2px;
+    box-shadow: 10px 3px 15px #444444;
   }
   
   .gba-joint {
@@ -26,7 +27,8 @@
     padding: 16px;
     border-radius: 20px 20px 0 0;
     border: solid #707070;
-    border-width: 2px 2px 3px 2px;
+    border-width: 2px 2px 2px 2px;
+    box-shadow: 10px 3px 15px #444444;
   }
   
   .gba-lower {
@@ -38,6 +40,7 @@
     position: relative;
     border: solid #707070;
     border-width: 0 2px 2px 2px;
+    box-shadow: 10px 8px 15px #444444;
   }
   
   .gba-screen {
