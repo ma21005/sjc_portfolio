@@ -1,15 +1,30 @@
+import { useState } from 'react';
 import WorkHistory from './WorkHistory';
+import cursorAudio from '../audio/cursor.mp3'
 import "../style/GameBoy.css";
 
 const GameBoy = () => {
+  const [hoveredNum, setHoveredNum] = useState(1);
+
+  const cursor = new Audio(cursorAudio);
+
+  const topBottomClick = () => {
+    setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
+    cursor.play();
+  };
+
+  const bottomBottomClick = () => {
+    setHoveredNum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
+    cursor.play();
+  };
+
   return (
     <div className="gba">
       <div className="gba-upper">
         <div className="gba-screen">
-          <WorkHistory num="1"/>
-          <WorkHistory num="2"/>
-          <WorkHistory num="3"/>
-          <WorkHistory num="4"/>
+          {[1, 2, 3, 4, 5].map(num => (
+            <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
+          ))}
         </div>
       </div>
       <div className="gba-joint">
@@ -23,10 +38,10 @@ const GameBoy = () => {
         <div className="power-lamp-2"></div>
         <div className="gba-dpad">
           <div className="cross-layout">
-            <div className="position-top">▲</div>
+            <div className="position-top" onClick={topBottomClick}>▲</div>
             <div className="position-left"><span className="left-mark">▲</span></div>
             <div className="position-right"><span className="right-mark">▲</span></div>
-            <div className="position-bottom"><span className="bottom-mark">▲</span></div>
+            <div className="position-bottom" onClick={bottomBottomClick}><span className="bottom-mark">▲</span></div>
             <div className="position-center"></div>
           </div>
           <div className="cross-circle"></div>

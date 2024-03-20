@@ -1,7 +1,15 @@
 .work-history {
-    width: 100%;
-    height: 30%;
+    width: 60%;
+    height: 1%;
     padding: 16px;
     border: solid #707070;
-    border-width: 0 2px 2px 2px;
+    border-width: 1px 1px 1px 1px;
+    border-radius: 999px;
+    margin: 2px 0 0 auto;
+}
+
+.work-history-hovered {
+    width: 80%;
+    height: 8%;
+    border-width: 2px 2px 2px 2px;
 }
