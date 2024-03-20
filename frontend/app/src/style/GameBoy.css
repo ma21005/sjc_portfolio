@@ -157,6 +157,7 @@
     display: grid;
     grid-template-columns: 35px 35px 35px;
     grid-template-rows: 35px 35px 35px;
+    color: #808080;
   }
   
   .cross-layout .position-top {
@@ -165,6 +166,10 @@
     background-color: #dcdcdc;
     border: solid #222222;
     border-width: 2px 2px 0 2px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
   .cross-layout .position-left {
@@ -173,8 +178,16 @@
     background-color: #dcdcdc;
     border: solid #222222;
     border-width: 2px 0 2px 2px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   
+  .left-mark {
+    transform: rotate(-90deg)
+  }
+
   .cross-layout .position-center {
     grid-row: 2 / 3;
     grid-column: 2 / 3;
@@ -187,6 +200,14 @@
     background-color: #dcdcdc;
     border: solid #222222;
     border-width: 2px 2px 2px 0;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .right-mark {
+    transform: rotate(90deg)
   }
   
   .cross-layout .position-bottom {
@@ -195,6 +216,14 @@
     background-color: #dcdcdc;
     border: solid #222222;
     border-width: 0 2px 2px 2px;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bottom-mark {
+    transform: rotate(-180deg)
   }
 
   .cross-circle {

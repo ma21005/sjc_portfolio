@@ -20,10 +20,10 @@ const GameBoy = () => {
         <div className="power-lamp-2"></div>
         <div className="gba-dpad">
           <div className="cross-layout">
-            <div className="position-top"></div>
-            <div className="position-left"></div>
-            <div className="position-right"></div>
-            <div className="position-bottom"></div>
+            <div className="position-top">▲</div>
+            <div className="position-left"><span className="left-mark">▲</span></div>
+            <div className="position-right"><span className="right-mark">▲</span></div>
+            <div className="position-bottom"><span className="bottom-mark">▲</span></div>
             <div className="position-center"></div>
           </div>
           <div className="cross-circle"></div>
