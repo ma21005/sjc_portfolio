@@ -12,7 +12,10 @@ const GameBoy = () => {
           <WorkHistory num="4"/>
         </div>
       </div>
-      <div className="gba-joint"></div>
+      <div className="gba-joint">
+        <div className="gba-joint-line-1"></div>
+        <div className="gba-joint-line-2"></div>
+      </div>
       <div className="gba-lower">
         <button className="setting-button"></button>
         <div className="setting-circle"></div>
