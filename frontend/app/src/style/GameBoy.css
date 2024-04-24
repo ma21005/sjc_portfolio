@@ -71,18 +71,28 @@
     box-shadow: 10px 8px 15px #444444;
   }
   
-  .gba-screen {
+  .gba-screen-on {
     width: 75%;
     height: 70%;
-    background-color: white;
+    background-color: #222222;
     border: 25px solid black;
     border-radius: 9px;
     margin-bottom: 5px;
     overflow: auto;
   }
 
-  .gba-screen::-webkit-scrollbar {
+  .gba-screen-on::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera用のスクロールバー非表示 */
+  }
+
+  .gba-screen-off {
+    width: 75%;
+    height: 70%;
+    background-color: #222222;
+    border: 25px solid black;
+    border-radius: 9px;
+    margin-bottom: 5px;
+    overflow: auto;
   }
   
   .gba-dpad {
@@ -163,13 +173,21 @@
     box-shadow: inset -3px -3px 20px #889aa1;
   }
 
-  .power-lamp-1 {
+  .power-lamp-1-on {
     width: 10px;
     height: 10px;
     background-color: #66FF99;
     position: absolute;
     right: 0%;
     box-shadow: 10px 8px 15px #66FF99;
+  }
+
+  .power-lamp-1-off {
+    width: 10px;
+    height: 10px;
+    background-color: black;
+    position: absolute;
+    right: 0%;
   }
 
   .power-lamp-2 {
