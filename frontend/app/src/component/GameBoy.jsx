@@ -31,6 +31,7 @@ const GameBoy = () => {
 
       powerOff.play();
       setTopMenu(true);
+      setHoveredNum(1);
     } else {
       powerOn.play();
       // BGMを再生
