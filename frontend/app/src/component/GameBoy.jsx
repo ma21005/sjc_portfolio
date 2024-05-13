@@ -9,6 +9,7 @@ const GameBoy = () => {
   const [hoveredNum, setHoveredNum] = useState(1);
   const [screenPower, setScreenPower] = useState(false);
   const [screenStyle, setScreenStyle] = useState({});
+  const [topMenu, setTopMenu] = useState(true);
 
   const powerOn = new Audio(powerOnAudio);
   const powerOff = new Audio(powerOffAudio);
@@ -17,14 +18,16 @@ const GameBoy = () => {
   const powerButtonClick = () => {
     if (screenPower) {
       powerOff.play();
+      setTopMenu(true);
     } else {
       powerOn.play();
     }
     setScreenPower(prevScreenPower => !prevScreenPower);
   };
 
-  const buttonAClick = () => {
-    if (screenPower) {
+  const buttonAorBClick = () => {
+    if (screenPower && topMenu) {
+      setTopMenu(false);
     }
   };
 
@@ -56,11 +59,17 @@ const GameBoy = () => {
     <div className="gba">
       <div className="gba-upper">
         { screenPower ? (
-          <div className="gba-screen-on" style={screenStyle}>
-            {[1, 2, 3, 4, 5].map(num => (
-              <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
-            ))}
-          </div>
+          topMenu ? (
+            <div className="gba-screen-top">
+              TOP MENU
+            </div>
+          ) : (
+            <div className="gba-screen-on" style={screenStyle}>
+              {[1, 2, 3, 4, 5].map(num => (
+                <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
+              ))}
+            </div>
+          )
         ) : (
           <div className="gba-screen-off">
           </div>
@@ -89,8 +98,8 @@ const GameBoy = () => {
             <div className="position-center"></div>
           </div>
           <div className="cross-circle"></div>
-          <button className="button button-a">A</button>
-          <button className="button button-b">B</button>
+          <button className="button button-a" onClick={buttonAorBClick}>A</button>
+          <button className="button button-b" onClick={buttonAorBClick}>B</button>
           <div className="a-b-circle"></div>
         </div>
         <div className="gba-start-select">

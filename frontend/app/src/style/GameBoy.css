@@ -70,6 +70,15 @@
     border-width: 0 2px 2px 2px;
     box-shadow: 10px 8px 15px #444444;
   }
+
+  .gba-screen-top {
+    width: 75%;
+    height: 70%;
+    background-color: white;
+    border: 25px solid black;
+    border-radius: 9px;
+    margin-bottom: 5px;
+  }
   
   .gba-screen-on {
     width: 75%;
