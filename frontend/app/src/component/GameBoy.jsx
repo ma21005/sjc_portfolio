@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import WorkHistory from './WorkHistory';
+import backgroundAudio from '../audio/backgrond.mp3'
+import topMenuButtonAudio from '../audio/topMenuButton.mp3'
 import cursorAudio from '../audio/cursor.mp3'
 import powerOnAudio from '../audio/screenPowerOn.mp3'
 import powerOffAudio from '../audio/screenPowerOff.mp3'
@@ -11,6 +13,8 @@ const GameBoy = () => {
   const [screenStyle, setScreenStyle] = useState({});
   const [topMenu, setTopMenu] = useState(true);
 
+  const backgrond = new Audio(backgroundAudio);
+  const topMenuButton = new Audio(topMenuButtonAudio);
   const powerOn = new Audio(powerOnAudio);
   const powerOff = new Audio(powerOffAudio);
   const cursor = new Audio(cursorAudio);
@@ -27,20 +31,21 @@ const GameBoy = () => {
 
   const buttonAorBClick = () => {
     if (screenPower && topMenu) {
+      topMenuButton.play();
       setTopMenu(false);
     }
   };
 
   const topBottomClick = () => {
     setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
-    if (screenPower) {
+    if (screenPower && !topMenu) {
       cursor.play();
     }
   };
 
   const bottomBottomClick = () => {
     setHoveredNum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
-    if (screenPower) {
+    if (screenPower && !topMenu) {
       cursor.play();
     }
   };
@@ -60,11 +65,12 @@ const GameBoy = () => {
       <div className="gba-upper">
         { screenPower ? (
           topMenu ? (
-            <div className="gba-screen-top">
-              TOP MENU
+            <div className="gba-screen-top" style={screenStyle}>
+              <p>TOP MENU</p>
+              <p>Please Button Click</p>
             </div>
           ) : (
-            <div className="gba-screen-on" style={screenStyle}>
+            <div className="gba-screen-on">
               {[1, 2, 3, 4, 5].map(num => (
                 <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
               ))}
