@@ -14,13 +14,18 @@ const GameBoy = () => {
   const powerOff = new Audio(powerOffAudio);
   const cursor = new Audio(cursorAudio);
 
-  const settingButtonClick = () => {
+  const powerButtonClick = () => {
     if (screenPower) {
       powerOff.play();
     } else {
       powerOn.play();
     }
     setScreenPower(prevScreenPower => !prevScreenPower);
+  };
+
+  const buttonAClick = () => {
+    if (screenPower) {
+    }
   };
 
   const topBottomClick = () => {
@@ -52,9 +57,9 @@ const GameBoy = () => {
       <div className="gba-upper">
         { screenPower ? (
           <div className="gba-screen-on" style={screenStyle}>
-            {/* {[1, 2, 3, 4, 5].map(num => (
+            {[1, 2, 3, 4, 5].map(num => (
               <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
-            ))} */}
+            ))}
           </div>
         ) : (
           <div className="gba-screen-off">
@@ -66,8 +71,9 @@ const GameBoy = () => {
         <div className="gba-joint-line-2"></div>
       </div>
       <div className="gba-lower">
-        <button className="setting-button" onClick={settingButtonClick}></button>
-        <div className="setting-circle"></div>
+        <div className="power">POWER</div>
+        <button className="power-button" onClick={powerButtonClick}></button>
+        <div className="power-circle"></div>
         { screenPower ? (
           <div className="power-lamp-1-on"></div>
         ) : (

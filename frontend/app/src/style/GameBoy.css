@@ -149,24 +149,37 @@
     border-width: 2px 2px 2px 2px;
     box-shadow: inset 1px 1px 15px #889aa1;
   }
+
+  .power {
+    position: absolute;
+    top: 3%;
+    left: 50%;
+    font-weight: bold;
+    font-size: 14px;
+    color: #c3dde6;
+    transform: translate(-50%, 0);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #889aa1;
+  }
   
-  .setting-button {
+  .power-button {
     width: 20px;
     height: 20px;
     background-color: #ddd;
     border-radius: 50%;
     position: absolute;
+    top: 10%;
     left: 50%;
     transform: translate(-50%, 0);
     z-index: 1;
   }
 
-  .setting-circle {
+  .power-circle {
     width: 25px;
     height: 25px;
     position: absolute;
     left: 46%;
-    top: 3.5%;
+    top: 9%;
     border-radius: 50%;
     border: solid #777777;
     border-width: 2px 2px 2px 2px;
