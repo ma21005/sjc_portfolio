@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef} from 'react';
+
 import WorkHistory from './WorkHistory';
 import backgroundAudio from '../audio/backgrond.mp3'
 import topMenuButtonAudio from '../audio/topMenuButton.mp3'
 import cursorAudio from '../audio/cursor.mp3'
 import powerOnAudio from '../audio/screenPowerOn.mp3'
 import powerOffAudio from '../audio/screenPowerOff.mp3'
+
 import "../style/GameBoy.css";
 
 const GameBoy = () => {
@@ -25,7 +27,7 @@ const GameBoy = () => {
 
   const powerButtonClick = () => {
     if (screenPower) {
-      // BGMが再生中であれば停止する
+      // BGMを停止する
       backgroundRef.current.pause();
       backgroundRef.current.currentTime = 0;
 
@@ -48,15 +50,15 @@ const GameBoy = () => {
   };
 
   const topBottomClick = () => {
-    setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
     if (screenPower && !topMenu) {
+      setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
       cursor.play();
     }
   };
 
   const bottomBottomClick = () => {
-    setHoveredNum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
     if (screenPower && !topMenu) {
+      setHoveredNum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
       cursor.play();
     }
   };
