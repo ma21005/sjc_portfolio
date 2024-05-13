@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef} from 'react';
 import WorkHistory from './WorkHistory';
 import backgroundAudio from '../audio/backgrond.mp3'
 import topMenuButtonAudio from '../audio/topMenuButton.mp3'
@@ -13,18 +13,28 @@ const GameBoy = () => {
   const [screenStyle, setScreenStyle] = useState({});
   const [topMenu, setTopMenu] = useState(true);
 
-  const backgrond = new Audio(backgroundAudio);
+  // useRef を使ってBGMの再生・停止を同一インスタンスで行う
+  const backgroundRef = useRef(new Audio(backgroundAudio));
+
   const topMenuButton = new Audio(topMenuButtonAudio);
   const powerOn = new Audio(powerOnAudio);
   const powerOff = new Audio(powerOffAudio);
   const cursor = new Audio(cursorAudio);
 
+  backgroundRef.loop = true;
+
   const powerButtonClick = () => {
     if (screenPower) {
       powerOff.play();
+      // BGMが再生中であれば停止する
+      backgroundRef.current.pause();
+      backgroundRef.current.currentTime = 0;
+
       setTopMenu(true);
     } else {
       powerOn.play();
+      // BGMを再生
+      backgroundRef.current.play();
     }
     setScreenPower(prevScreenPower => !prevScreenPower);
   };
