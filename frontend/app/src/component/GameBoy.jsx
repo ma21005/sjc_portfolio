@@ -25,11 +25,11 @@ const GameBoy = () => {
 
   const powerButtonClick = () => {
     if (screenPower) {
-      powerOff.play();
       // BGMが再生中であれば停止する
       backgroundRef.current.pause();
       backgroundRef.current.currentTime = 0;
 
+      powerOff.play();
       setTopMenu(true);
     } else {
       powerOn.play();
