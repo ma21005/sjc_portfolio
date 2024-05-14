@@ -111,7 +111,7 @@ const GameBoy = () => {
         { screenPower ? (
             titleScreen ? (
               <div className="gba-screen-top" style={screenStyle}>
-                <h2>TOP MENU</h2>
+                <h2>TOP SCREEN</h2>
                 <h2>Please Button Click</h2>
               </div>
             ) : (
