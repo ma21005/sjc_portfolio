@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef} from 'react';
 
 import WorkHistory from './WorkHistory';
-import backgroundAudio from '../audio/backgrond.mp3'
-import topMenuButtonAudio from '../audio/topMenuButton.mp3'
-import cursorAudio from '../audio/cursor.mp3'
-import powerOnAudio from '../audio/screenPowerOn.mp3'
-import powerOffAudio from '../audio/screenPowerOff.mp3'
+import backgroundAudio from '../audio/backgrond.mp3';
+import titleScreenButtonAudio from '../audio/titleScreenButton.mp3';
+import menuScreenButtonAudio from '../audio/menuScreenButton.mp3';
+import detailScreenBButtonAudio from '../audio/detailScreenBButton.mp3'
+import cursorAudio from '../audio/cursor.mp3';
+import powerOnAudio from '../audio/screenPowerOn.mp3';
+import powerOffAudio from '../audio/screenPowerOff.mp3';
 
 import "../style/GameBoy.css";
 
@@ -13,51 +15,81 @@ const GameBoy = () => {
   const [hoveredNum, setHoveredNum] = useState(1);
   const [screenPower, setScreenPower] = useState(false);
   const [screenStyle, setScreenStyle] = useState({});
-  const [topMenu, setTopMenu] = useState(true);
 
-  // useRef を使ってBGMの再生・停止を同一インスタンスで行う
+  // 画面を判定するためのState
+  const [titleScreen, setTitleScreen] = useState(true);
+  const [menuScreen, setMenuScreen] = useState(false);
+  const [detailScreen, setDetailScreen] = useState(false);
+
+  // useRef を使ってオーディオインスタンスを管理することでBGMの再生・停止を同一インスタンスで行う
   const backgroundRef = useRef(new Audio(backgroundAudio));
+  backgroundRef.current.loop = true;
 
-  const topMenuButton = new Audio(topMenuButtonAudio);
+  const titleScreenButton = new Audio(titleScreenButtonAudio);
+  const menuScreenButton = new Audio(menuScreenButtonAudio);
+  const detailScreenBButton = new Audio(detailScreenBButtonAudio);
   const powerOn = new Audio(powerOnAudio);
   const powerOff = new Audio(powerOffAudio);
   const cursor = new Audio(cursorAudio);
 
-  backgroundRef.loop = true;
-
   const powerButtonClick = () => {
     if (screenPower) {
-      // BGMを停止する
+      // 電源オフ
       backgroundRef.current.pause();
       backgroundRef.current.currentTime = 0;
 
       powerOff.play();
-      setTopMenu(true);
+
+      // 画面判定のStateをリセット
+      setTitleScreen(true);
+      setMenuScreen(false);
+      setDetailScreen(false);
       setHoveredNum(1);
     } else {
+      // 電源オン
       powerOn.play();
-      // BGMを再生
       backgroundRef.current.play();
     }
     setScreenPower(prevScreenPower => !prevScreenPower);
   };
 
-  const buttonAorBClick = () => {
-    if (screenPower && topMenu) {
-      topMenuButton.play();
-      setTopMenu(false);
+  const buttonAClick = () => {
+    if (!screenPower) return;
+
+    if (titleScreen) {
+        titleScreenButton.play();
+        setMenuScreen(true);
+        setTitleScreen(false);
+    } else if (menuScreen) {
+        menuScreenButton.play();
+        setDetailScreen(true);
+        setMenuScreen(false);
+    }
+  };
+
+  const buttonBClick = () => {
+    if (!screenPower) return;
+
+    if (titleScreen) {
+        titleScreenButton.play();
+        setMenuScreen(true);
+        setTitleScreen(false);
+    } else if (!menuScreen) {
+        detailScreenBButton.play();
+        setDetailScreen(false);
+        setMenuScreen(true);
     }
   };
 
   const topBottomClick = () => {
-    if (screenPower && !topMenu) {
+    if (screenPower && menuScreen) {
       setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
       cursor.play();
     }
   };
 
   const bottomBottomClick = () => {
-    if (screenPower && !topMenu) {
+    if (screenPower && menuScreen) {
       setHoveredNum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
       cursor.play();
     }
@@ -77,22 +109,28 @@ const GameBoy = () => {
     <div className="gba">
       <div className="gba-upper">
         { screenPower ? (
-          topMenu ? (
-            <div className="gba-screen-top" style={screenStyle}>
-              <p>TOP MENU</p>
-              <p>Please Button Click</p>
-            </div>
+            titleScreen ? (
+              <div className="gba-screen-top" style={screenStyle}>
+                <h2>TOP MENU</h2>
+                <h2>Please Button Click</h2>
+              </div>
+            ) : (
+              menuScreen ? (
+                <div className="gba-screen-menu">
+                  {[1, 2, 3, 4, 5].map(num => (
+                    <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
+                  ))}
+                </div>
+              ) : (
+                <div className="gba-screen-detail">
+                  <h1>{hoveredNum}</h1>
+                </div>
+              )
+            )
           ) : (
-            <div className="gba-screen-on">
-              {[1, 2, 3, 4, 5].map(num => (
-                <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
-              ))}
+            <div className="gba-screen-off">
             </div>
-          )
-        ) : (
-          <div className="gba-screen-off">
-          </div>
-        ) }
+          ) }
       </div>
       <div className="gba-joint">
         <div className="gba-joint-line-1"></div>
@@ -117,8 +155,8 @@ const GameBoy = () => {
             <div className="position-center"></div>
           </div>
           <div className="cross-circle"></div>
-          <button className="button button-a" onClick={buttonAorBClick}>A</button>
-          <button className="button button-b" onClick={buttonAorBClick}>B</button>
+          <button className="button button-a" onClick={buttonAClick}>A</button>
+          <button className="button button-b" onClick={buttonBClick}>B</button>
           <div className="a-b-circle"></div>
         </div>
         <div className="gba-start-select">

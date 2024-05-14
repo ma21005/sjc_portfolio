@@ -80,7 +80,7 @@
     margin-bottom: 5px;
   }
   
-  .gba-screen-on {
+  .gba-screen-menu {
     width: 75%;
     height: 70%;
     background-color: white;
@@ -90,8 +90,18 @@
     overflow: auto;
   }
 
-  .gba-screen-on::-webkit-scrollbar {
+  .gba-screen-menu::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera用のスクロールバー非表示 */
+  }
+
+  .gba-screen-detail {
+    width: 75%;
+    height: 70%;
+    background-color: white;
+    border: 25px solid black;
+    border-radius: 9px;
+    margin-bottom: 5px;
+    overflow: auto;
   }
 
   .gba-screen-off {
