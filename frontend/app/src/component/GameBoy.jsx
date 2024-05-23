@@ -32,6 +32,8 @@ const GameBoy = () => {
   const powerOff = new Audio(powerOffAudio);
   const cursor = new Audio(cursorAudio);
 
+  const items = ['PROFILE', 'CAREER', 'SKILL','DELIVERABLE']
+
   const powerButtonClick = () => {
     if (screenPower) {
       // 電源オフ
@@ -118,12 +120,12 @@ const GameBoy = () => {
               menuScreen ? (
                 <div className="gba-screen-menu">
                   {[1, 2, 3, 4, 5].map(num => (
-                    <WorkHistory key={num} num={String(num)} isHovered={hoveredNum === num} />
+                    <WorkHistory key={num} item={items[num-1]} isHovered={hoveredNum === num} />
                   ))}
                 </div>
               ) : (
                 <div className="gba-screen-detail">
-                  <h1>{hoveredNum}</h1>
+                  <h1>{items[hoveredNum-1]}</h1>
                 </div>
               )
             )
