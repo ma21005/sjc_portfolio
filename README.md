@@ -1,9 +1,21 @@
+### 使用技術
 ```
-Ruby:3.1.3
-Ruby on Rails:7.0.8
-React:18.2.0
+Ruby 3.1.3
+Ruby on Rails 7.0.8
+React 18.2.0
+PostgreSQL 16.1
+Docker/Docker-compose
 ```
 
+
+### 動作手順
+
+1.
+```
+git clone https://github.com/ma21005/sjc_portfolio.git
+```
+
+2.
 ```
 docker-compose build
 docker-compose run api rails db:create
@@ -14,6 +26,8 @@ docker-compose build
 
 docker-compose up
 ```
+
+3. http://localhost:3001/ にアクセス
 
 
 ### クレジット情報
