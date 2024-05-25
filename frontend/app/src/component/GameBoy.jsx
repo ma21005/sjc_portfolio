@@ -83,6 +83,16 @@ const GameBoy = () => {
     }
   };
 
+  // 十字キーを押している間だけ border の色を変化させる
+  const handleMouseDown = (event) => {
+    event.target.style.borderColor = 'black';
+  };
+
+  // 十字キーを離すと border の色を元に戻す
+  const handleMouseUp = (event) => {
+    event.target.style.borderColor = '#555555';
+  };
+
   const topBottomClick = () => {
     if (screenPower && menuScreen) {
       setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
@@ -150,10 +160,16 @@ const GameBoy = () => {
         <div className="power-lamp-2"></div>
         <div className="gba-dpad">
           <div className="cross-layout">
-            <div className="position-top" onClick={topBottomClick}>▲</div>
-            <div className="position-left"><span className="left-mark">▲</span></div>
-            <div className="position-right"><span className="right-mark">▲</span></div>
-            <div className="position-bottom" onClick={bottomBottomClick}><span className="bottom-mark">▲</span></div>
+            <div className="position-top" onClick={topBottomClick}  onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>▲</div>
+            <div className="position-left" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+              <span className="left-mark">▲</span>
+            </div>
+            <div className="position-right" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+              <span className="right-mark">▲</span>
+            </div>
+            <div className="position-bottom" onClick={bottomBottomClick} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+              <span className="bottom-mark">▲</span>
+            </div>
             <div className="position-center"></div>
           </div>
           <div className="cross-circle"></div>
