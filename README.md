@@ -19,6 +19,8 @@ git clone https://github.com/ma21005/sjc_portfolio.git
 ```
 docker-compose build
 docker-compose run api rails db:create
+docker-compose exec api bin/rails db:migrate
+docker-compose exec api bin/rails db:seed
 
 cd frontend/app
 npm install
