@@ -48,6 +48,9 @@ const GameBoy = () => {
   };
   const ColumnComponent = columnsMap[columns[hoveredNum - 1]];
 
+  // 各項目のコンポーネント内でボタンによるスクロールを実現するためのref
+  const menuScreenRef = useRef(null);
+
   const powerButtonClick = () => {
     if (screenPower) {
       // 電源オフ
@@ -112,12 +115,22 @@ const GameBoy = () => {
       setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
       cursor.play();
     }
+
+    // ボタンによるスクロール処理
+    if (menuScreenRef.current) {
+      menuScreenRef.current.scrollBy({ top: -80, behavior: 'smooth' });
+    }
   };
 
   const bottomBottomClick = () => {
     if (screenPower && menuScreen) {
       setHoveredNum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
       cursor.play();
+    }
+
+    // ボタンによるスクロール処理
+    if (menuScreenRef.current) {
+      menuScreenRef.current.scrollBy({ top: 80, behavior: 'smooth' });
     }
   };
 
@@ -148,7 +161,7 @@ const GameBoy = () => {
                   ))}
                 </div>
               ) : (
-                <div className="gba-screen-detail">
+                <div className="gba-screen-menu" ref={menuScreenRef}>
                   <ColumnComponent />
                 </div>
               )

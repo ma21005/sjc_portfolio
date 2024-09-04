@@ -22,8 +22,12 @@ const Skill = (props) => {
         <ul>
         {skills.map(skill => (
           <React.Fragment key={skill.id}>
-            <li>{skill.skill_type}</li>
-            <li>Experience: {skill.experience}</li>
+            {/* <li>{skill.skill_type}</li>
+            <li>{skill.experience}</li> */}
+            <div>
+              <p>{skill.skill_type}</p>
+              <p>{skill.experience}</p>
+            </div>
           </React.Fragment>
         ))}
         </ul>

@@ -94,16 +94,6 @@
     display: none; /* Chrome, Safari, Opera用のスクロールバー非表示 */
   }
 
-  .gba-screen-detail {
-    width: 75%;
-    height: 70%;
-    background-color: white;
-    border: 25px solid black;
-    border-radius: 9px;
-    margin-bottom: 5px;
-    overflow: auto;
-  }
-
   .gba-screen-off {
     width: 75%;
     height: 70%;
