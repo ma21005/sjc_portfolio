@@ -1,6 +1,12 @@
 import { useState, useEffect, useRef} from 'react';
 
 import WorkHistory from './WorkHistory';
+
+import Profile from './Profile';
+import Career from './Career';
+import Skill from './Skill';
+import Deliverable from './Deliverable';
+
 import backgroundAudio from '../audio/backgrond.mp3';
 import titleScreenButtonAudio from '../audio/titleScreenButton.mp3';
 import menuScreenButtonAudio from '../audio/menuScreenButton.mp3';
@@ -32,7 +38,15 @@ const GameBoy = () => {
   const powerOff = new Audio(powerOffAudio);
   const cursor = new Audio(cursorAudio);
 
-  const items = ['PROFILE', 'CAREER', 'SKILL','DELIVERABLE']
+  // 項目を定義し、各コンポーネントとマッピング
+  const columns = ['PROFILE', 'CAREER', 'SKILL', 'DELIVERABLE'];
+  const columnsMap = {
+    PROFILE: Profile,
+    CAREER: Career,
+    SKILL: Skill,
+    DELIVERABLE: Deliverable
+  };
+  const ColumnComponent = columnsMap[columns[hoveredNum - 1]];
 
   const powerButtonClick = () => {
     if (screenPower) {
@@ -130,12 +144,12 @@ const GameBoy = () => {
               menuScreen ? (
                 <div className="gba-screen-menu">
                   {[1, 2, 3, 4, 5].map(num => (
-                    <WorkHistory key={num} item={items[num-1]} isHovered={hoveredNum === num} />
+                    <WorkHistory key={num} item={columns[num-1]} isHovered={hoveredNum === num} />
                   ))}
                 </div>
               ) : (
                 <div className="gba-screen-detail">
-                  <h1>{items[hoveredNum-1]}</h1>
+                  <ColumnComponent />
                 </div>
               )
             )
