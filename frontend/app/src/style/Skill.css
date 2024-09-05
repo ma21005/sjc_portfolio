@@ -1,4 +1,23 @@
+  .skill_frame {
+    border: solid #707070;
+  }
+
+  .skill_level_frame {
+    width: 175px;
+    height: 35px;
+    background-color: black;
+  }
+
+  .skill_name {
+    font-size: 30px;
+  }
+
   .skill_star {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .skill_icon {
+    width: 50px;
+    height: 50px;
   }

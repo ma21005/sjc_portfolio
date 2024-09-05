@@ -21,19 +21,22 @@ const Skill = (props) => {
 
     return (
       <div>
-        <ul>
         {skills.map(skill => {
           // 熟練度(skill.experience)の整数部分の数だけ全ての星を表示し
           // 小数部分に応じて星を部分的に表示させるためにそれぞれ分ける
           const fullStars = Math.floor(skill.experience);  // 整数部分
           const partialStar = skill.experience - fullStars;  // 小数部分
 
+          // スキル名(skill.skill_type)に基づく画像パス
+          const imagePath = `/img/icons/${skill.skill_type}.png`;
+
           return (
             <React.Fragment key={skill.id}>
-              <div>
-                <h2>{skill.skill_type}</h2>
+              <div className="skill_frame">
+                <img className="skill_icon" src={imagePath} alt={skill.skill_type} />
+                <p className="skill_name">{skill.skill_type}</p>
                 <p>{skill.experience}</p>
-                <div>
+                <div className="skill_level_frame">
                   {/* 整数部分に応じて星を表示 */}
                   {Array.from({ length: fullStars }).map((_, index) => (
                     <img className="skill_star" src="/img/skill_star.jpg" alt="Skill Star" />
@@ -47,7 +50,6 @@ const Skill = (props) => {
             </React.Fragment>
           );
         })}
-        </ul>
       </div>
     );
   };
