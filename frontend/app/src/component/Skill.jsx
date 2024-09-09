@@ -32,14 +32,14 @@ const Skill = (props) => {
 
           return (
             <React.Fragment key={skill.id}>
-              <div className="skill_frame">
+              <div className="skill_frame nes-container is-rounded is-dark">
                 <img className="skill_icon" src={imagePath} alt={skill.skill_type} />
                 <p className="skill_name">{skill.skill_type}</p>
                 <p>{skill.experience}</p>
                 <div className="skill_level_frame">
                   {/* 整数部分に応じて星を表示 */}
                   {Array.from({ length: fullStars }).map((_, index) => (
-                    <img className="skill_star" src="/img/skill_star.jpg" alt="Skill Star" />
+                    <img key={index} className="skill_star" src="/img/skill_star.jpg" alt="Skill Star" />
                   ))}
                   {/* 小数部分に応じて星を部分的に表示 */}
                   <img className="skill_star" src="/img/skill_star.jpg" alt="Skill Star" style={{  
