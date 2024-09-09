@@ -12,6 +12,10 @@
     font-style: normal;
   }
 
+  div {
+    box-sizing: content-box;
+  }
+
   .gba {
     position: absolute;
     top: 50%;

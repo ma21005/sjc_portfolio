@@ -15,6 +15,7 @@ import cursorAudio from '../audio/cursor.mp3';
 import powerOnAudio from '../audio/screenPowerOn.mp3';
 import powerOffAudio from '../audio/screenPowerOff.mp3';
 
+import "nes.css/css/nes.min.css";
 import "../style/GameBoy.css";
 
 const GameBoy = () => {
