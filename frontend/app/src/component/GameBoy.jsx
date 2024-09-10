@@ -113,7 +113,7 @@ const GameBoy = () => {
 
   const topBottomClick = () => {
     if (screenPower && menuScreen) {
-      setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
+      setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 4));
       cursor.play();
     }
 
@@ -125,7 +125,7 @@ const GameBoy = () => {
 
   const bottomBottomClick = () => {
     if (screenPower && menuScreen) {
-      setHoveredNum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
+      setHoveredNum(prevNum => (prevNum < 4 ? prevNum + 1 : 1));
       cursor.play();
     }
 
@@ -157,7 +157,7 @@ const GameBoy = () => {
             ) : (
               menuScreen ? (
                 <div className="gba-screen-menu">
-                  {[1, 2, 3, 4, 5].map(num => (
+                  {[1, 2, 3, 4].map(num => (
                     <WorkHistory key={num} item={columns[num-1]} isHovered={hoveredNum === num} />
                   ))}
                 </div>

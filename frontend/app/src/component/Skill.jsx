@@ -29,7 +29,7 @@ const Skill = (props) => {
           const partialStar = skillExperience - fullStars;  // 小数部分
 
           // スキル名(skill.skill_type)に基づく画像パス
-          const imagePath = `/img/icons/${skill.skill_type}.png`;
+          const imagePath = `/img/skill_icons/${skill.skill_type}.png`;
 
           return (
             <React.Fragment key={skill.id}>

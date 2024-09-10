@@ -1,19 +1,32 @@
+.work-history-container {
+    position: relative;
+}
+
+.work-history-container-hoverd {
+    background-color: khaki !important;
+}
+
 .work-history {
-    width: 60%;
+    width: 55%;
     height: 1%;
     line-height: 1%;
-    padding: 16px;
-    border: solid #707070;
-    border-width: 1px 1px 1px 1px;
-    border-radius: 999px;
-    margin: 2px 0 0 auto;
+    margin: 0 4px !important;
     text-align: center;
 }
 
 .work-history-hovered {
-    width: 80%;
-    height: 8%;
-    line-height: 80%;
+    width: 51%;
+    height: 4%;
+    line-height: 50%;
     font-weight: bold;
-    border-width: 2px 2px 2px 2px;
+    font-size: 23px;
+    margin: 9px 0 28px 9px !important;
+}
+
+.work-history-icon {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
