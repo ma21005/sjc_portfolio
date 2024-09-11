@@ -22,13 +22,27 @@ const Profile = (props) => {
     return (
       <div>
         {profiles.map(profile => (
-          <li key={profile.id}>
-            <p>名前: {profile.name}</p>
-            <p>年齢: {profile.age}</p>
-            <p>誕生日: {profile.birthday}</p>
-            <p>血液型: {profile.blood_type}</p>
-            <p>メールアドレス: {profile.mail_address}</p>
-          </li>
+          <div key={profile.id} className="profile-container nes-container is-rounded is-dark">
+            <div className="profile-data-container-1">
+              <div className="profile-icon-container nes-container is-rounded is-dark">
+                <img className="profile-icon" src="/img/cat_icons/profile_icon.png" alt="Profile Image" />
+              </div>
+              <div className="profile-name-and-age-container">
+                <p className="name-label">Name：
+                </p>
+                <p className="name-value">{profile.name}</p>
+                <p className="age-label-and-value">Age：{profile.age}</p>
+                <p className="blood-type-label-and-value">BloodType：{profile.blood_type}</p>
+              </div>
+            </div>
+            <div className="profile-birthday-container">
+              <p className="birthday-label-and-value">Birthday：{profile.birthday}</p>
+            </div>
+            <div className="profile-mail-address-container">
+                <p className="mail-address-label">MailAddress：</p>
+                <p className="mail-address-value">{profile.mail_address}</p>
+              </div>
+          </div>
         ))}
       </div>
     );
