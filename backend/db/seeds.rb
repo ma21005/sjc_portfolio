@@ -1,4 +1,14 @@
 
+# Sample profiles
+Profile.create(
+  name: "Hikaru Onda",
+  age: 26,
+  birthday: "1998-05-13",
+  blood_type: "O",
+  mail_address: "onda.hikaru@sjc-inc.co.jp"
+)
+
+
 # Sample skills
 Skill.create([
   { skill_type: 'Ruby', experience: 3.0 },
