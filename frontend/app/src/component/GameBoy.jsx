@@ -139,8 +139,8 @@ const GameBoy = () => {
   useEffect(() => {
     if (screenPower) {
       setScreenStyle({
-        // 1秒かけてTitleコンポーネントのopacityを1に変化させる
-        transition: 'opacity 1s ease'
+        // 2秒かけてTitleコンポーネントのopacityを1に変化させる
+        transition: 'opacity 2s ease'
       });
 
       // opacityを1に変更してフェードインを実行
