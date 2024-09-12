@@ -2,6 +2,7 @@ import { useState, useEffect, useRef} from 'react';
 
 import WorkHistory from './WorkHistory';
 
+import Title from './Title'
 import Profile from './Profile';
 import Career from './Career';
 import Skill from './Skill';
@@ -138,9 +139,22 @@ const GameBoy = () => {
   useEffect(() => {
     if (screenPower) {
       setScreenStyle({
-        // 1秒かけて背景色をwhiteに変化させる
-        backgroundColor: 'white',
-        transition: 'background-color 1s ease'
+        // 1秒かけてTitleコンポーネントのopacityを1に変化させる
+        transition: 'opacity 1s ease'
+      });
+
+      // 非同期でopacityを1に変更し、フェードインを実現
+      setTimeout(() => {
+        setScreenStyle(prevStyle => ({
+          ...prevStyle,
+          opacity: 1
+        }));
+      }, 10);
+    } else {
+      // 電源オフ時にopacityを再度0に設定
+      setScreenStyle({
+        opacity: 0,
+        transition: 'opacity 1s ease',
       });
     }
   }, [screenPower]); // screenPowerの変化時に再計算
@@ -150,9 +164,8 @@ const GameBoy = () => {
       <div className="gba-upper">
         { screenPower ? (
             titleScreen ? (
-              <div className="gba-screen-top" style={screenStyle}>
-                <h2>TOP SCREEN</h2>
-                <h2>Please Button Click</h2>
+              <div className="gba-screen-top">
+                <Title style={screenStyle}/>
               </div>
             ) : (
               menuScreen ? (
