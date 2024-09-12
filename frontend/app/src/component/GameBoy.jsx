@@ -154,7 +154,6 @@ const GameBoy = () => {
       // 電源オフ時にopacityを再度0に設定
       setScreenStyle({
         opacity: 0,
-        transition: 'opacity 1s ease',
       });
     }
   }, [screenPower]); // screenPowerの変化時に再計算
