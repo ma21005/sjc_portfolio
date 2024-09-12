@@ -143,13 +143,13 @@ const GameBoy = () => {
         transition: 'opacity 1s ease'
       });
 
-      // 非同期でopacityを1に変更し、フェードインを実現
-      setTimeout(() => {
+      // opacityを1に変更してフェードインを実行
+      requestAnimationFrame(() => {
         setScreenStyle(prevStyle => ({
           ...prevStyle,
-          opacity: 1
+          opacity: 1,
         }));
-      }, 10);
+      });
     } else {
       // 電源オフ時にopacityを再度0に設定
       setScreenStyle({
