@@ -173,8 +173,17 @@ const GameBoy = () => {
   const selectButtonClick = () => {
     if (!screenPower) return; // 電源オフの場合
 
-    // タイトル画面 以外の場合は リターン画面 を表示させる
-    if (!titleScreen) {
+    if (showReturnTitle) { // 既に リターン画面 の場合は前の画面に戻る
+      menuScreenButton.play();
+      setShowReturnTitle(false);
+      setSelectedOption("yes");
+      if (wasMenuScreen) {
+        setMenuScreen(true);
+      } else {
+        setDetailScreen(true)
+      }
+    } else if (!titleScreen) { // タイトル画面 以外の場合は リターン画面 を表示させて前の画面情報を保存
+      menuScreenButton.play();
       setShowReturnTitle(true);
       if (menuScreen) {
         setMenuScreen(false);
