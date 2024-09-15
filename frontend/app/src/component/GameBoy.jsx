@@ -21,7 +21,6 @@ const GameBoy = () => {
 
   // ========== 表示されている画面の判定、状態の保存を行うState ========== //
 
-  const [hoge, setHoge] = useState(true);
   // タイトル画面
   const [titleScreen, setTitleScreen] = useState(true);
   // メニュー画面
@@ -265,8 +264,8 @@ const GameBoy = () => {
               ))
             ) : showReturnTitle ? (
               <ReturnTitle
-                selectedOption={selectedOption} // 状態を渡す
-                onSelectOption={setSelectedOption} // 状態を変更する関数を渡す
+                selectedOption={selectedOption}
+                onSelectOption={setSelectedOption}
               />
             ) : detailScreen ? (
               // メニュー画面にある各項目のコンポーネントを呼び出す

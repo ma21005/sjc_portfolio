@@ -24,7 +24,7 @@ const Profile = (props) => {
           <div key={profile.id} className="profile-container nes-container is-rounded is-dark">
             <div className="profile-data-container-1">
               <div className="profile-icon-container nes-container is-rounded is-dark">
-                <img className="profile-icon" src="/img/cat_icons/profile_icon.png" alt="Profile Image" />
+                <img className="profile-icon" src="/img/cat_icons/profile_icon.png" alt="Profile Icon" />
               </div>
               <div className="profile-name-and-age-container">
                 <p className="name-label">Name：
