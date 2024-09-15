@@ -7,6 +7,7 @@ import Profile from './Profile';
 import Career from './Career';
 import Skill from './Skill';
 import Deliverable from './Deliverable';
+import ReturnTitle from './ReturnTitle';
 
 import backgroundAudio from '../audio/backgrond.mp3';
 import titleScreenButtonAudio from '../audio/titleScreenButton.mp3';
@@ -28,6 +29,9 @@ const GameBoy = () => {
   const [titleScreen, setTitleScreen] = useState(true);
   const [menuScreen, setMenuScreen] = useState(false);
   const [detailScreen, setDetailScreen] = useState(false);
+  const [showReturnTitle, setShowReturnTitle] = useState(false);
+  const [wasMenuScreen, setWasMenuScreen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("yes");
 
   // useRef を使ってオーディオインスタンスを管理することでBGMの再生・停止を同一インスタンスで行う
   const backgroundRef = useRef(new Audio(backgroundAudio));
@@ -65,6 +69,7 @@ const GameBoy = () => {
       setTitleScreen(true);
       setMenuScreen(false);
       setDetailScreen(false);
+      setShowReturnTitle(false);
       setHoveredNum(1);
     } else {
       // 電源オン
@@ -85,6 +90,21 @@ const GameBoy = () => {
         menuScreenButton.play();
         setDetailScreen(true);
         setMenuScreen(false);
+        setShowReturnTitle(false);
+    } else if (showReturnTitle) {
+      if (selectedOption === "yes") {
+        setTitleScreen(true);
+        setShowReturnTitle(false);
+      } else if (selectedOption === "no") {
+        menuScreenButton.play();
+        setShowReturnTitle(false)
+        setSelectedOption("yes")
+        if (wasMenuScreen) {
+          setMenuScreen(true);
+        } else {
+          setDetailScreen(true)
+        }
+      }
     }
   };
 
@@ -95,10 +115,36 @@ const GameBoy = () => {
         titleScreenButton.play();
         setMenuScreen(true);
         setTitleScreen(false);
-    } else if (!menuScreen) {
-        detailScreenBButton.play();
-        setDetailScreen(false);
+    } else if (showReturnTitle) {
+      detailScreenBButton.play();
+      setShowReturnTitle(false);
+      setSelectedOption("yes");
+      if (wasMenuScreen) {
         setMenuScreen(true);
+      } else {
+        setDetailScreen(true)
+      }
+      setWasMenuScreen(false);
+    } else if (!menuScreen) {
+      detailScreenBButton.play();
+      setDetailScreen(false);
+      setMenuScreen(true);
+      setShowReturnTitle(false);
+    }
+  };
+
+  const selectButtonClick = () => {
+    if (!screenPower) return;
+
+    if (!titleScreen) {
+      setShowReturnTitle(true);
+      if (menuScreen) {
+        setMenuScreen(false);
+        setWasMenuScreen(true);
+      } else {
+        setDetailScreen(false);
+        setWasMenuScreen(false);
+      }
     }
   };
 
@@ -123,6 +169,16 @@ const GameBoy = () => {
       menuScreenRef.current.scrollBy({ top: -80, behavior: 'smooth' });
     }
   };
+
+  const rightBottomClick = () => {
+    if (showReturnTitle) {
+      if (selectedOption === "yes") {
+        setSelectedOption("no");
+      } else if (selectedOption === "no") {
+        setSelectedOption("yes");
+      }
+    }
+  }
 
   const bottomBottomClick = () => {
     if (screenPower && menuScreen) {
@@ -170,6 +226,11 @@ const GameBoy = () => {
               Array.from({ length: columns.length }, (_, index) => index + 1).map(num => (
                 <WorkHistory key={num} item={columns[num - 1]} isHovered={hoveredNum === num} />
               ))
+            ) : showReturnTitle ? (
+              <ReturnTitle
+                selectedOption={selectedOption} // 状態を渡す
+                onSelectOption={setSelectedOption} // 状態を変更する関数を渡す
+              />
             ) : (
               // メニュー画面にある各項目のコンポーネントを呼び出す
               <ColumnComponent />
@@ -200,7 +261,7 @@ const GameBoy = () => {
             <div className="position-left" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
               <span className="left-mark">▲</span>
             </div>
-            <div className="position-right" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+            <div className="position-right" onClick={rightBottomClick} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
               <span className="right-mark">▲</span>
             </div>
             <div className="position-bottom" onClick={bottomBottomClick} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
@@ -217,7 +278,7 @@ const GameBoy = () => {
           {/* ↑↑ ============ ABボタン ============== ↑↑ */}
         </div>
         <div className="gba-start-select">
-          <button className="select-button"></button>
+          <button className="select-button" onClick={selectButtonClick}></button>
           <button className="start-button"></button>
           <div className="select-circle"></div>
           <div className="start-circle"></div>
