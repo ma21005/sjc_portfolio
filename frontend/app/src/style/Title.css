@@ -11,6 +11,15 @@
     height: 100%;
   }
 
+  .title-name-container {
+    width: 100%;
+    position: absolute;
+    font-size: 20px;
+    top: 5%;
+    left: 0%;
+    text-align: center;
+  }
+
   .title-message-container {
     width: 100%;
     position: absolute;

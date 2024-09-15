@@ -136,6 +136,7 @@ const GameBoy = () => {
     }
   };
 
+  // タイトル画面のフェードイン処理
   useEffect(() => {
     if (screenPower) {
       setScreenStyle({
@@ -143,7 +144,6 @@ const GameBoy = () => {
         transition: 'opacity 2s ease'
       });
 
-      // opacityを1に変更してフェードインを実行
       requestAnimationFrame(() => {
         setScreenStyle(prevStyle => ({
           ...prevStyle,
@@ -156,7 +156,7 @@ const GameBoy = () => {
         opacity: 0,
       });
     }
-  }, [screenPower]); // screenPowerの変化時に再計算
+  }, [screenPower]);
 
   return (
     <div className="gba">
