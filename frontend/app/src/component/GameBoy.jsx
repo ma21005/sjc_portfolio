@@ -7,7 +7,7 @@ import Skill from './Skill';
 import Deliverable from './Deliverable';
 import ReturnTitle from './ReturnTitle';
 import titleBGMAudio from '../audio/TitleBGM.mp3';
-import basicBGMdAudio from '../audio/backgrond.mp3';
+import basicBGMdAudio from '../audio/BasicBGM.mp3';
 import titleScreenButtonAudio from '../audio/titleScreenButton.mp3';
 import menuScreenButtonAudio from '../audio/menuScreenButton.mp3';
 import detailScreenBButtonAudio from '../audio/detailScreenBButton.mp3'
