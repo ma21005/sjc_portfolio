@@ -93,6 +93,7 @@ const GameBoy = () => {
         setShowReturnTitle(false);
     } else if (showReturnTitle) {
       if (selectedOption === "yes") {
+        menuScreenButton.play();
         setTitleScreen(true);
         setShowReturnTitle(false);
       } else if (selectedOption === "no") {
@@ -170,8 +171,20 @@ const GameBoy = () => {
     }
   };
 
+  const leftBottomClick = () => {
+    if (showReturnTitle) {
+      cursor.play();
+      if (selectedOption === "yes") {
+        setSelectedOption("no");
+      } else if (selectedOption === "no") {
+        setSelectedOption("yes");
+      }
+    }
+  }
+
   const rightBottomClick = () => {
     if (showReturnTitle) {
+      cursor.play();
       if (selectedOption === "yes") {
         setSelectedOption("no");
       } else if (selectedOption === "no") {
@@ -258,7 +271,7 @@ const GameBoy = () => {
           {/* ↓↓ ============ 十字キー ============== ↓↓ */}
           <div className="cross-layout">
             <div className="position-top" onClick={topBottomClick}  onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>▲</div>
-            <div className="position-left" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
+            <div className="position-left" onClick={leftBottomClick} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
               <span className="left-mark">▲</span>
             </div>
             <div className="position-right" onClick={rightBottomClick} onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>

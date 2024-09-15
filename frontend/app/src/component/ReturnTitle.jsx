@@ -1,19 +1,18 @@
-import React, { useState } from "react";
 import "../style/ReturnTitle.css";
 
-const ReturnTitle = ({ selectedOption, onSelectOption, style }) => {
+const ReturnTitle = ({ selectedOption, onSelectOption }) => {
     // ラジオボタンの変更を処理
     const handleChange = (event) => {
       onSelectOption(event.target.value); // 親コンポーネントに変更を通知
     };
 
     return (
-      <div className="return-title-container" style={style}>
-        <h1>hogehoge</h1>
+      <div className="return-title-container nes-container is-dark with-title">
+        <p className="title">Back to Title？</p>
         <label>
           <input
             type="radio"
-            className="nes-radio is-dark"
+            className="yes-radio nes-radio is-dark"
             name="answer"
             value="yes"
             checked={selectedOption === "yes"}
@@ -24,7 +23,7 @@ const ReturnTitle = ({ selectedOption, onSelectOption, style }) => {
         <label>
           <input
             type="radio"
-            className="nes-radio is-dark"
+            className="no-radio nes-radio is-dark"
             name="answer"
             value="no"
             checked={selectedOption === "no"}

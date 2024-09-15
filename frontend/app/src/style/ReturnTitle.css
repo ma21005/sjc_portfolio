@@ -1,3 +1,8 @@
+
   .return-title-container {
-    color: white;
+    margin: 50px 19px 0 19px !important;
+  }
+
+  .no-radio {
+    margin-left: 38px;
   }
