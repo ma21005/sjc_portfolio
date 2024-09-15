@@ -6,7 +6,8 @@ import Career from './Career';
 import Skill from './Skill';
 import Deliverable from './Deliverable';
 import ReturnTitle from './ReturnTitle';
-import backgroundAudio from '../audio/backgrond.mp3';
+import titleBGMAudio from '../audio/TitleBGM.mp3';
+import basicBGMdAudio from '../audio/backgrond.mp3';
 import titleScreenButtonAudio from '../audio/titleScreenButton.mp3';
 import menuScreenButtonAudio from '../audio/menuScreenButton.mp3';
 import detailScreenBButtonAudio from '../audio/detailScreenBButton.mp3'
@@ -69,9 +70,12 @@ const GameBoy = () => {
   const powerOff = new Audio(powerOffAudio);
   // 十字キー クリック
   const cursor = new Audio(cursorAudio);
-  // 基本BGM
-  const backgroundRef = useRef(new Audio(backgroundAudio));
-  backgroundRef.current.loop = true;
+  // タイトル画面 BGM
+  const titleBGMRef = useRef(new Audio(titleBGMAudio));
+  titleBGMRef.current.loop = true;
+  // 基本BGM（タイトル画面以外）
+  const basicBGMRef = useRef(new Audio(basicBGMdAudio));
+  basicBGMRef.current.loop = true;
 
 
   // ================== ボタンクリック時の挙動 ================== //
@@ -79,8 +83,10 @@ const GameBoy = () => {
   // 電源ボタン
   const powerButtonClick = () => {
     if (screenPower) { // 電源オンの場合
-      backgroundRef.current.pause();
-      backgroundRef.current.currentTime = 0;
+      basicBGMRef.current.pause(); // BGMをリセット
+      basicBGMRef.current.currentTime = 0;
+      titleBGMRef.current.pause();
+      titleBGMRef.current.currentTime = 0
       powerOff.play();
       setTitleScreen(true); // 各Stateをリセット
       setMenuScreen(false);
@@ -90,7 +96,7 @@ const GameBoy = () => {
       setSelectedOption("yes")
     } else { // 電源オフの場合
       powerOn.play();
-      backgroundRef.current.play();
+      titleBGMRef.current.play();
     }
     setScreenPower(prevScreenPower => !prevScreenPower);
   };
@@ -121,6 +127,9 @@ const GameBoy = () => {
         titleScreenButton.play();
         setMenuScreen(true);
         setTitleScreen(false);
+        titleBGMRef.current.pause();
+        titleBGMRef.current.currentTime = 0;
+        basicBGMRef.current.play();
     } else if (menuScreen) { // メニュー画面の場合
         menuScreenButton.play();
         setDetailScreen(true);
@@ -132,6 +141,9 @@ const GameBoy = () => {
         setTitleScreen(true);
         setShowReturnTitle(false);
         setHoveredNum(1);
+        basicBGMRef.current.pause();
+        basicBGMRef.current.currentTime = 0;
+        titleBGMRef.current.play();
       } else if (selectedOption === "no") {
         menuScreenButton.play();
         setShowReturnTitle(false)
@@ -152,6 +164,9 @@ const GameBoy = () => {
         titleScreenButton.play();
         setMenuScreen(true);
         setTitleScreen(false);
+        titleBGMRef.current.pause();
+        titleBGMRef.current.currentTime = 0;
+        basicBGMRef.current.play();
     } else if (showReturnTitle) { // リターン画面の場合
       detailScreenBButton.play();
       setShowReturnTitle(false);
