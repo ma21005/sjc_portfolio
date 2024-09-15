@@ -40,7 +40,7 @@ const GameBoy = () => {
   const powerOff = new Audio(powerOffAudio);
   const cursor = new Audio(cursorAudio);
 
-  // 項目を定義し、各コンポーネントとマッピング
+  // メニュー画面の項目を定義し、各コンポーネントとマッピング
   const columns = ['PROFILE', 'CAREER', 'SKILL', 'DELIVERABLE'];
   const columnsMap = {
     PROFILE: Profile,
@@ -114,7 +114,7 @@ const GameBoy = () => {
 
   const topBottomClick = () => {
     if (screenPower && menuScreen) {
-      setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : 4));
+      setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : columns.length));
       cursor.play();
     }
 
@@ -126,7 +126,7 @@ const GameBoy = () => {
 
   const bottomBottomClick = () => {
     if (screenPower && menuScreen) {
-      setHoveredNum(prevNum => (prevNum < 4 ? prevNum + 1 : 1));
+      setHoveredNum(prevNum => (prevNum < columns.length ? prevNum + 1 : 1));
       cursor.play();
     }
 
@@ -160,45 +160,41 @@ const GameBoy = () => {
 
   return (
     <div className="gba">
+      {/* ↓↓ ============== 上画面 ============== ↓↓ */}
       <div className="gba-upper">
-        { screenPower ? (
-            titleScreen ? (
-              <div className="gba-screen-top">
-                <Title style={screenStyle}/>
-              </div>
+        {screenPower ? (
+          <div className={titleScreen ? "gba-screen-top" : "gba-screen-menu"} ref={!titleScreen && !menuScreen ? menuScreenRef : null}>
+            {titleScreen ? (
+              <Title style={screenStyle} />
+            ) : menuScreen ? (
+              Array.from({ length: columns.length }, (_, index) => index + 1).map(num => (
+                <WorkHistory key={num} item={columns[num - 1]} isHovered={hoveredNum === num} />
+              ))
             ) : (
-              menuScreen ? (
-                <div className="gba-screen-menu">
-                  {[1, 2, 3, 4].map(num => (
-                    <WorkHistory key={num} item={columns[num-1]} isHovered={hoveredNum === num} />
-                  ))}
-                </div>
-              ) : (
-                <div className="gba-screen-menu" ref={menuScreenRef}>
-                  <ColumnComponent />
-                </div>
-              )
-            )
-          ) : (
-            <div className="gba-screen-off">
-            </div>
-          ) }
+              // メニュー画面にある各項目のコンポーネントを呼び出す
+              <ColumnComponent />
+            )}
+          </div>
+        ) : (
+          <div className="gba-screen-off"></div>
+        )}
       </div>
+      {/* ↑↑ ============== 上画面 ============== ↑↑ */}
       <div className="gba-joint">
         <div className="gba-joint-line-1"></div>
         <div className="gba-joint-line-2"></div>
       </div>
+      {/* ↓↓ ============== 下画面 ============== ↓↓ */}
       <div className="gba-lower">
         <div className="power">POWER</div>
         <button className="power-button" onClick={powerButtonClick}></button>
         <div className="power-circle"></div>
-        { screenPower ? (
-          <div className="power-lamp-1-on"></div>
-        ) : (
-          <div className="power-lamp-1-off"></div>
-        ) }
+        {/* ↓↓ ============ 電源ランプ ============ ↓↓ */}
+        <div className={screenPower ? "power-lamp-1-on" : "power-lamp-1-off"}></div>
         <div className="power-lamp-2"></div>
+        {/* ↑↑ ============ 電源ランプ ============ ↑↑ */}
         <div className="gba-dpad">
+          {/* ↓↓ ============ 十字キー ============== ↓↓ */}
           <div className="cross-layout">
             <div className="position-top" onClick={topBottomClick}  onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>▲</div>
             <div className="position-left" onMouseDown={handleMouseDown} onMouseUp={handleMouseUp}>
@@ -213,9 +209,12 @@ const GameBoy = () => {
             <div className="position-center"></div>
           </div>
           <div className="cross-circle"></div>
+          {/* ↑↑ ============ 十字キー ============== ↑↑ */}
+          {/* ↓↓ ============ ABボタン ============== ↓↓ */}
           <button className="button button-a" onClick={buttonAClick}>A</button>
           <button className="button button-b" onClick={buttonBClick}>B</button>
           <div className="a-b-circle"></div>
+          {/* ↑↑ ============ ABボタン ============== ↑↑ */}
         </div>
         <div className="gba-start-select">
           <button className="select-button"></button>
@@ -226,6 +225,7 @@ const GameBoy = () => {
           <div className="start">START</div>
         </div>
       </div>
+      {/* ↑↑ ============== 下画面 ============== ↑↑ */}
     </div>
   );
 };
