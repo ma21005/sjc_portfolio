@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   # root "articles#index"
   resources :profiles
   resources :skills
+  resources :products
 end
