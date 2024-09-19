@@ -4,7 +4,7 @@ import Title from './Title'
 import Profile from './Profile';
 import Career from './Career';
 import Skill from './Skill';
-import Deliverable from './Deliverable';
+import Product from './Product';
 import ReturnTitle from './ReturnTitle';
 import titleBGMAudio from '../audio/TitleBGM.mp3';
 import basicBGMdAudio from '../audio/BasicBGM.mp3';
@@ -43,13 +43,13 @@ const GameBoy = () => {
   const [selectedOption, setSelectedOption] = useState("yes");
 
   // メニュー画面の項目
-  const columns = ['PROFILE', 'CAREER', 'SKILL', 'DELIVERABLE'];
+  const columns = ['PROFILE', 'CAREER', 'SKILL', 'PRODUCT'];
   // 定義したメニュー画面の項目と各コンポーネントをマッピングさせる
   const columnsMap = {
     PROFILE: Profile,
     CAREER: Career,
     SKILL: Skill,
-    DELIVERABLE: Deliverable
+    PRODUCT: Product
   };
   const ColumnComponent = columnsMap[columns[hoveredNum - 1]];
   // 詳細画面で 十字キー によるスクロールを実現する
