@@ -24,6 +24,6 @@ Product.create([
   { name: 'メルカリ', url: 'https://jp.mercari.com/' },
   { name: 'Amazon', url: 'https://www.amazon.co.jp/' },
   { name: 'Yahoo!オークション', url: 'https://auctions.yahoo.co.jp/' },
-  { name: 'スーパーマリオブラザーズ', url: 'https://www.nintendo.com/jp/famicom/software/smb1/index.html' },
+  { name: 'Minecraft', url: 'https://www.minecraft.net/ja-jp' },
   { name: '阿部 寛のホームページ', url: 'http://abehiroshi.la.coocan.jp/' }
 ])

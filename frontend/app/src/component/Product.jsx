@@ -4,6 +4,7 @@ import axios from 'axios';
 import ProductItem from './ProductItem'
 
 const Product = (props) => {
+  const {hoveredANum} = props;
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -13,9 +14,9 @@ const Product = (props) => {
   }, []);
 
   return (
-    <div>
-      {products.map(product => (
-        <ProductItem key={product.id} product={product} />
+    <div style={{ height: '100%' }}>
+      {products.map((product, index) => (
+        <ProductItem key={index + 1} product={product} isHovered={hoveredANum === index + 1} />
       ))}
     </div>
   );

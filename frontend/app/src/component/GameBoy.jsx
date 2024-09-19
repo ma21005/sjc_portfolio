@@ -28,6 +28,8 @@ const GameBoy = () => {
   const [menuScreen, setMenuScreen] = useState(false);
   // メニュー画面に表示されている各項目の詳細画面
   const [detailScreen, setDetailScreen] = useState(false);
+  // 成果物画面
+  const [productScreen, setProductScreen] = useState(false);
   // タイトル画面に戻るかどうかを選べる画面（以降：リターン画面）
   const [showReturnTitle, setShowReturnTitle] = useState(false);
 
@@ -37,6 +39,8 @@ const GameBoy = () => {
   const [screenStyle, setScreenStyle] = useState({});
   // メニュー画面で現在どの項目を選択しているかを保存する
   const [hoveredNum, setHoveredNum] = useState(1);
+  // メニュー画面で現在どの項目を選択しているかを保存する
+  const [hoveredANum, setHoveredANum] = useState(1);
   // ReturnTitle から前画面に戻る際に前画面が menuScreen か detailScreen かを保存する
   const [wasMenuScreen, setWasMenuScreen] = useState(false);
   // ReturnTitle のラジオボタンの状態を保存する（デフォルトは yes にチェック）
@@ -54,6 +58,7 @@ const GameBoy = () => {
   const ColumnComponent = columnsMap[columns[hoveredNum - 1]];
   // 詳細画面で 十字キー によるスクロールを実現する
   const menuScreenRef = useRef(null);
+  const [isScrolling, setIsScrolling] = useState(false);
 
 
   // ===================== ボタンクリック音・BGM ===================== //
@@ -135,6 +140,9 @@ const GameBoy = () => {
         setDetailScreen(true);
         setMenuScreen(false);
         setShowReturnTitle(false);
+        if (columns[hoveredNum - 1] === 'PRODUCT') { // 成果物画面の場合
+          setProductScreen(true);
+        }
     } else if (showReturnTitle) { // リターン画面の場合
       if (selectedOption === "yes") {
         menuScreenButton.play();
@@ -182,6 +190,8 @@ const GameBoy = () => {
       setDetailScreen(false);
       setMenuScreen(true);
       setShowReturnTitle(false);
+      setHoveredANum(1);
+      setProductScreen(false)
     }
   };
   // セレクトボタン
@@ -230,6 +240,29 @@ const GameBoy = () => {
     if (menuScreen) { // メニュー画面の場合
       setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : columns.length));
       cursor.play();
+    } else if (productScreen) { // 成果物画面の場合
+      if (menuScreenRef.current && !isScrolling) { // 十字キー（上）で画面をスクロール
+        setHoveredANum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
+        setIsScrolling(true);
+        let time;
+        const scrollHeight = menuScreenRef.current.scrollHeight; // 全体の高さ
+        const clientHeight = menuScreenRef.current.clientHeight; // 表示領域の高さ
+
+        if (hoveredANum === 1) {
+          // 上にこれ以上スクロールできない場合は一番下までスクロールする
+          menuScreenRef.current.scrollTo({ top: scrollHeight - clientHeight, behavior: 'smooth' });
+          time = 5 * 100
+        } else {
+          // それ以外は通常通り上にスクロールする
+          menuScreenRef.current.scrollBy({ top: -clientHeight, behavior: 'smooth' });
+          time = 300
+        }
+        // スクロールが終了した後、フラグをリセット
+        setTimeout(() => {
+          setIsScrolling(false);
+        }, time); // スクロールアニメーションの時間に合わせて調整
+      }
+      cursor.play();
     } else if (detailScreen && ColumnComponent !== Profile) { // プロフィール以外の詳細画面の場合
       playCursorSound();
       if (menuScreenRef.current) { // 十字キー（上）で画面をスクロール
@@ -243,6 +276,28 @@ const GameBoy = () => {
 
     if (menuScreen) { // メニュー画面の場合
       setHoveredNum(prevNum => (prevNum < columns.length ? prevNum + 1 : 1));
+      cursor.play();
+    } else if (productScreen) { // 成果物画面の場合
+      if (menuScreenRef.current && !isScrolling) { // 十字キー（下）で画面をスクロール
+        setHoveredANum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
+        setIsScrolling(true);
+        let time;
+        const clientHeight = menuScreenRef.current.clientHeight; // 表示領域の高さ
+
+        if (hoveredANum === 5) {
+          // 下にこれ以上スクロールできない場合は一番上までスクロールする
+          menuScreenRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+          time = 5 * 100
+        } else {
+          // それ以外は通常通り上にスクロールする
+          menuScreenRef.current.scrollBy({ top: clientHeight, behavior: 'smooth' });
+          time = 300
+        }
+        // スクロールが終了した後、フラグをリセット
+        setTimeout(() => {
+          setIsScrolling(false);
+        }, time); // スクロールアニメーションの時間に合わせて調整
+      }
       cursor.play();
     } else if (detailScreen && ColumnComponent !== Profile) { // プロフィール以外の詳細画面の場合
       playCursorSound();
@@ -293,7 +348,7 @@ const GameBoy = () => {
               />
             ) : detailScreen ? (
               // メニュー画面にある各項目のコンポーネントを呼び出す
-              <ColumnComponent />
+              <ColumnComponent hoveredANum={hoveredANum} />
             ) : (
               <></>
             )}
