@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   resources :profiles
   resources :skills
   resources :products
+  resources :careers
 end

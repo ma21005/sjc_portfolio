@@ -8,6 +8,58 @@ Profile.create(
   mail_address: "onda.hikaru@sjc-inc.co.jp"
 )
 
+# Sample careers
+Career.create([
+  {
+    project_name: "タスク管理アプリケーションの開発",
+    start_date: "2022-01-01",
+    end_date: "2024-08-03",
+    description: "チームでのタスク管理を効率化するアプリケーションを開発。ユーザーがタスクを追加・編集・削除でき、進捗状況を可視化するダッシュボードを実装。",
+  },
+  {
+    project_name: "オンライン教育プラットフォームの構築",
+    start_date: "2020-12-01",
+    end_date: "2021-12-31",
+    description: "学習者と講師をつなぐオンライン教育プラットフォームを構築。コース作成、ユーザー評価機能、動画配信機能を実装。",
+  },
+  {
+    project_name: "eコマースサイトのリニューアル",
+    start_date: "2020-03-01",
+    end_date: "2020-11-30",
+    description: "既存のeコマースサイトをリニューアルし、ユーザー体験を向上させるために新しいUI/UXデザインを適用。モバイル対応も実施。",
+  },
+  {
+    project_name: "社内情報共有システムの開発",
+    start_date: "2019-05-01",
+    end_date: "2020-02-28",
+    description: "社内での情報共有を促進するためのシステムを開発。ドキュメント管理、タスク割り当て、コミュニケーションツールを統合。",
+  }
+])
+
+# Sample technologies
+Technology.create([
+  { name: 'HTML' },
+  { name: 'CSS'  },
+  { name: 'JavaScript' },
+  { name: 'Python' },
+  { name: 'Ruby' },
+  { name: 'Rails' },
+  { name: 'React' }
+])
+
+CareerTechnology.create([
+  { career_id: 1, technology_id: 5 },
+  { career_id: 1, technology_id: 3 },
+  { career_id: 1, technology_id: 6 },
+  { career_id: 1, technology_id: 7 },
+  { career_id: 2, technology_id: 3 },
+  { career_id: 2, technology_id: 7 },
+  { career_id: 3, technology_id: 5 },
+  { career_id: 3, technology_id: 6 },
+  { career_id: 4, technology_id: 1 },
+  { career_id: 4, technology_id: 2 },
+])
+
 # Sample skills
 Skill.create([
   { skill_type: 'Ruby', experience: 3.0 },
