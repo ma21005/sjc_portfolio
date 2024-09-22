@@ -6,7 +6,13 @@ const Product = (props) => {
   return (
     <div style={{ height: '100%' }}>
       {products.map((product, index) => (
-        <ProductItem key={index + 1} product={product} isHovered={hoveredProductNum === index + 1} />
+        <ProductItem
+          key={index + 1}
+          product={product}
+          isHovered={hoveredProductNum === index + 1}
+          isFirst={index === 0}
+          isLast={index === products.length - 1}
+        />
       ))}
     </div>
   );
