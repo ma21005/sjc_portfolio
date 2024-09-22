@@ -147,8 +147,8 @@ const GameBoy = () => {
         setDetailScreen(true);
         setMenuScreen(false);
         setShowReturnTitle(false);
-        if (columns[hoveredMenuNum - 1] === 'PRODUCT') { // 成果物画面の場合
-          setProductScreen(true);
+        if (columns[hoveredMenuNum - 1] === 'PRODUCT') {
+          setProductScreen(true); // 成果物画面への遷移を保存
         }
     } else if (showReturnTitle) { // リターン画面の場合
       if (selectedOption === "yes") {
@@ -171,6 +171,9 @@ const GameBoy = () => {
           setDetailScreen(true);
         }
       }
+    } else if (productScreen) { // 成果物画面の場合
+      menuScreenButton.play();
+      window.open(products[hoveredProductNum - 1].url, "_blank")
     }
   };
   // ===== Bボタン ===== //
