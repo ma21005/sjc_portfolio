@@ -9,6 +9,7 @@ const ProductItem = (props) => {
           ? 'product-hovered'
           : ''}`}>
           {product.name}
+          {product.description}
       </div>
     </div>
   );

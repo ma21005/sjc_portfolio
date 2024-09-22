@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef} from 'react';
+import axios from 'axios';
 import WorkHistory from './WorkHistory';
 import Title from './Title'
 import Profile from './Profile';
@@ -41,9 +42,11 @@ const GameBoy = () => {
   const [hoveredNum, setHoveredNum] = useState(1);
   // メニュー画面で現在どの項目を選択しているかを保存する
   const [hoveredANum, setHoveredANum] = useState(1);
-  // ReturnTitle から前画面に戻る際に前画面が menuScreen か detailScreen かを保存する
+  // 成果物画面で表示される成果物を保存する
+  const [products, setProducts] = useState([]);
+  // リターン画面から前画面に戻る際に前画面が menuScreen か detailScreen かを保存する
   const [wasMenuScreen, setWasMenuScreen] = useState(false);
-  // ReturnTitle のラジオボタンの状態を保存する（デフォルトは yes にチェック）
+  // リターン画面のラジオボタンの状態を保存する（デフォルトは yes にチェック）
   const [selectedOption, setSelectedOption] = useState("yes");
 
   // メニュー画面の項目
@@ -242,7 +245,7 @@ const GameBoy = () => {
       cursor.play();
     } else if (productScreen) { // 成果物画面の場合
       if (menuScreenRef.current && !isScrolling) { // 十字キー（上）で画面をスクロール
-        setHoveredANum(prevNum => (prevNum > 1 ? prevNum - 1 : 5));
+        setHoveredANum(prevNum => (prevNum > 1 ? prevNum - 1 : products.length));
         setIsScrolling(true);
         let time;
         const scrollHeight = menuScreenRef.current.scrollHeight; // 全体の高さ
@@ -251,7 +254,7 @@ const GameBoy = () => {
         if (hoveredANum === 1) {
           // 上にこれ以上スクロールできない場合は一番下までスクロールする
           menuScreenRef.current.scrollTo({ top: scrollHeight - clientHeight, behavior: 'smooth' });
-          time = 5 * 100
+          time = products.length * 100
         } else {
           // それ以外は通常通り上にスクロールする
           menuScreenRef.current.scrollBy({ top: -clientHeight, behavior: 'smooth' });
@@ -279,15 +282,15 @@ const GameBoy = () => {
       cursor.play();
     } else if (productScreen) { // 成果物画面の場合
       if (menuScreenRef.current && !isScrolling) { // 十字キー（下）で画面をスクロール
-        setHoveredANum(prevNum => (prevNum < 5 ? prevNum + 1 : 1));
+        setHoveredANum(prevNum => (prevNum < products.length ? prevNum + 1 : 1));
         setIsScrolling(true);
         let time;
         const clientHeight = menuScreenRef.current.clientHeight; // 表示領域の高さ
 
-        if (hoveredANum === 5) {
+        if (hoveredANum === products.length) {
           // 下にこれ以上スクロールできない場合は一番上までスクロールする
           menuScreenRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-          time = 5 * 100
+          time = products.length * 100
         } else {
           // それ以外は通常通り上にスクロールする
           menuScreenRef.current.scrollBy({ top: clientHeight, behavior: 'smooth' });
@@ -329,6 +332,16 @@ const GameBoy = () => {
     }
   }
 
+  // ================== バックエンドからデータベースのデータを取得 ================== //
+
+  // 成果物
+  // 十字キーの処理等で成果物の数（products.length）を利用するので、ここで取得し Product コンポーネントに渡す
+  useEffect(() => {
+    axios.get('http://localhost:3000/products')
+      .then(response => setProducts(response.data))
+      .catch(error => console.error('Error fetching products:', error));
+  }, []);
+
   return (
     <div className="gba">
       {/* ↓↓ ============== 上画面 ============== ↓↓ */}
@@ -348,7 +361,7 @@ const GameBoy = () => {
               />
             ) : detailScreen ? (
               // メニュー画面にある各項目のコンポーネントを呼び出す
-              <ColumnComponent hoveredANum={hoveredANum} />
+              <ColumnComponent products={products} hoveredANum={hoveredANum} />
             ) : (
               <></>
             )}
