@@ -39,9 +39,11 @@ const GameBoy = () => {
   // 電源オン時にタイトル画面をフェードインさせるため
   const [screenStyle, setScreenStyle] = useState({});
   // メニュー画面で現在どの項目を選択しているかを保存する
-  const [hoveredNum, setHoveredNum] = useState(1);
-  // メニュー画面で現在どの項目を選択しているかを保存する
-  const [hoveredANum, setHoveredANum] = useState(1);
+  const [hoveredMenuNum, setHoveredMenuNum] = useState(1);
+  // 成果物画面で現在どの項目を選択しているかを保存する
+  const [hoveredProductNum, setHoveredProductNum] = useState(1);
+  // スキル画面で表示されるスキルを保存する
+  const [skills, setSkills] = useState([]);
   // 成果物画面で表示される成果物を保存する
   const [products, setProducts] = useState([]);
   // リターン画面から前画面に戻る際に前画面が menuScreen か detailScreen かを保存する
@@ -58,7 +60,7 @@ const GameBoy = () => {
     SKILL: Skill,
     PRODUCT: Product
   };
-  const ColumnComponent = columnsMap[columns[hoveredNum - 1]];
+  const ColumnComponent = columnsMap[columns[hoveredMenuNum - 1]];
   // 詳細画面で 十字キー によるスクロールを実現する
   const menuScreenRef = useRef(null);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -88,20 +90,22 @@ const GameBoy = () => {
 
   // ================== ボタンクリック時の挙動 ================== //
 
-  // 電源ボタン
+  // ===== 電源ボタン ===== //
   const powerButtonClick = () => {
     if (screenPower) { // 電源オンの場合
       basicBGMRef.current.pause(); // BGMをリセット
       basicBGMRef.current.currentTime = 0;
       titleBGMRef.current.pause();
-      titleBGMRef.current.currentTime = 0
+      titleBGMRef.current.currentTime = 0;
       powerOff.play();
       setTitleScreen(true); // 各Stateをリセット
       setMenuScreen(false);
       setDetailScreen(false);
-      setHoveredNum(1);
+      setProductScreen(false);
+      setHoveredMenuNum(1);
+      setHoveredProductNum(1);
       setShowReturnTitle(false);
-      setSelectedOption("yes")
+      setSelectedOption("yes");
     } else { // 電源オフの場合
       powerOn.play();
       titleBGMRef.current.play();
@@ -127,7 +131,7 @@ const GameBoy = () => {
       });
     }
   }, [screenPower]);
-  // Aボタン
+  // ===== Aボタン ===== //
   const buttonAClick = () => {
     if (!screenPower) return; // 電源オフの場合
 
@@ -143,7 +147,7 @@ const GameBoy = () => {
         setDetailScreen(true);
         setMenuScreen(false);
         setShowReturnTitle(false);
-        if (columns[hoveredNum - 1] === 'PRODUCT') { // 成果物画面の場合
+        if (columns[hoveredMenuNum - 1] === 'PRODUCT') { // 成果物画面の場合
           setProductScreen(true);
         }
     } else if (showReturnTitle) { // リターン画面の場合
@@ -151,23 +155,25 @@ const GameBoy = () => {
         menuScreenButton.play();
         setTitleScreen(true);
         setShowReturnTitle(false);
-        setHoveredNum(1);
+        setHoveredMenuNum(1);
+        setHoveredProductNum(1);
         basicBGMRef.current.pause();
         basicBGMRef.current.currentTime = 0;
         titleBGMRef.current.play();
       } else if (selectedOption === "no") {
         menuScreenButton.play();
-        setShowReturnTitle(false)
-        setSelectedOption("yes")
+        setShowReturnTitle(false);
+        setSelectedOption("yes");
+        setHoveredProductNum(1);
         if (wasMenuScreen) {
           setMenuScreen(true);
         } else {
-          setDetailScreen(true)
+          setDetailScreen(true);
         }
       }
     }
   };
-  // Bボタン
+  // ===== Bボタン ===== //
   const buttonBClick = () => {
     if (!screenPower) return; // 電源オフの場合
 
@@ -182,10 +188,11 @@ const GameBoy = () => {
       detailScreenBButton.play();
       setShowReturnTitle(false);
       setSelectedOption("yes");
+      setHoveredProductNum(1)
       if (wasMenuScreen) {
         setMenuScreen(true);
       } else {
-        setDetailScreen(true)
+        setDetailScreen(true);
       }
       setWasMenuScreen(false);
     } else if (detailScreen) { // 詳細画面の場合
@@ -193,11 +200,11 @@ const GameBoy = () => {
       setDetailScreen(false);
       setMenuScreen(true);
       setShowReturnTitle(false);
-      setHoveredANum(1);
+      setHoveredProductNum(1);
       setProductScreen(false)
     }
   };
-  // セレクトボタン
+  // ===== セレクトボタン ===== //
   const selectButtonClick = () => {
     if (!screenPower) return; // 電源オフの場合
 
@@ -208,7 +215,7 @@ const GameBoy = () => {
       if (wasMenuScreen) {
         setMenuScreen(true);
       } else {
-        setDetailScreen(true)
+        setDetailScreen(true);
       }
     } else if (!titleScreen) { // タイトル画面 以外の場合は リターン画面 を表示させて前の画面情報を保存
       menuScreenButton.play();
@@ -231,85 +238,117 @@ const GameBoy = () => {
     event.target.style.borderColor = '#555555';
   };
   // 詳細画面で 十字キー 連打時にクリック音を連続して出せるようにする
+  let isCursorPlaying = false;
   const playCursorSound = () => {
+    if (isCursorPlaying) return; // 再生中なら何もしない
+    isCursorPlaying = true;
     cursor.pause();
     cursor.currentTime = 0;
-    cursor.play();
+    cursor.play().finally(() => {
+        isCursorPlaying = false; // 再生が完了したらフラグを戻す
+    });
   };
-  // 十字キー（上）
+  // スキル画面と成果物画面で十字キー（上、下）を連打した場合にスクロールがズレるので
+  // 待機時間内であればスクロール中は別のスクロールを行わないようにする
+  let time;
+  const resetScrolling = (time) => {
+    setTimeout(() => {
+      setIsScrolling(false);
+    }, time);
+  };
+  // ===== 十字キー（上） ===== //
   const topBottomClick = () => {
     if (!screenPower) return; // 電源オフの場合
 
     if (menuScreen) { // メニュー画面の場合
-      setHoveredNum(prevNum => (prevNum > 1 ? prevNum - 1 : columns.length));
+      setHoveredMenuNum(prevNum => (prevNum > 1 ? prevNum - 1 : columns.length));
       cursor.play();
     } else if (productScreen) { // 成果物画面の場合
       if (menuScreenRef.current && !isScrolling) { // 十字キー（上）で画面をスクロール
-        setHoveredANum(prevNum => (prevNum > 1 ? prevNum - 1 : products.length));
+        setHoveredProductNum(prevNum => (prevNum > 1 ? prevNum - 1 : products.length));
         setIsScrolling(true);
-        let time;
         const scrollHeight = menuScreenRef.current.scrollHeight; // 全体の高さ
         const clientHeight = menuScreenRef.current.clientHeight; // 表示領域の高さ
 
-        if (hoveredANum === 1) {
-          // 上にこれ以上スクロールできない場合は一番下までスクロールする
+        if (hoveredProductNum === 1) {
+          // 一番上の成果物で十字キー（上）をクリックした際には一番下までスクロールする
           menuScreenRef.current.scrollTo({ top: scrollHeight - clientHeight, behavior: 'smooth' });
-          time = products.length * 100
+          time = products.length * 100 // 成果物の数に応じて待機時間を調整
         } else {
           // それ以外は通常通り上にスクロールする
           menuScreenRef.current.scrollBy({ top: -clientHeight, behavior: 'smooth' });
           time = 300
         }
         // スクロールが終了した後、フラグをリセット
-        setTimeout(() => {
-          setIsScrolling(false);
-        }, time); // スクロールアニメーションの時間に合わせて調整
+        resetScrolling(time);
       }
       cursor.play();
     } else if (detailScreen && ColumnComponent !== Profile) { // プロフィール以外の詳細画面の場合
       playCursorSound();
-      if (menuScreenRef.current) { // 十字キー（上）で画面をスクロール
+      if (menuScreenRef.current && !isScrolling) { // 十字キー（上）で画面をスクロール
+        setIsScrolling(true);
+        const { scrollTop } = menuScreenRef.current; // 現在のスクロール位置
+        const scrollHeight = menuScreenRef.current.scrollHeight; // 全体の高さ
+
+        if (scrollTop === 0) {
+          // 一番上で十字キー（上）を押した場合は一番下までスクロール
+          menuScreenRef.current.scrollTo({ top: scrollHeight, behavior: 'smooth' });
+          time = skills.length * 80; // 成果物の数に応じて待機時間を調整
+          resetScrolling(time);
+        } else {
+          // 通常通り上にスクロール
           menuScreenRef.current.scrollBy({ top: -80, behavior: 'smooth' });
+          setIsScrolling(false);
         }
+      }
     }
   };
-  // 十字キー（下）
+  // ===== 十字キー（下） ===== //
   const bottomBottomClick = () => {
     if (!screenPower) return; // 電源オフの場合
 
     if (menuScreen) { // メニュー画面の場合
-      setHoveredNum(prevNum => (prevNum < columns.length ? prevNum + 1 : 1));
+      setHoveredMenuNum(prevNum => (prevNum < columns.length ? prevNum + 1 : 1));
       cursor.play();
     } else if (productScreen) { // 成果物画面の場合
       if (menuScreenRef.current && !isScrolling) { // 十字キー（下）で画面をスクロール
-        setHoveredANum(prevNum => (prevNum < products.length ? prevNum + 1 : 1));
+        setHoveredProductNum(prevNum => (prevNum < products.length ? prevNum + 1 : 1));
         setIsScrolling(true);
-        let time;
         const clientHeight = menuScreenRef.current.clientHeight; // 表示領域の高さ
 
-        if (hoveredANum === products.length) {
-          // 下にこれ以上スクロールできない場合は一番上までスクロールする
+        if (hoveredProductNum === products.length) {
+          // 一番下の成果物で十字キー（下）をクリックした際には一番上までスクロールする
           menuScreenRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-          time = products.length * 100
+          time = products.length * 100; // 成果物の数に応じて待機時間を調整
         } else {
-          // それ以外は通常通り上にスクロールする
+          // それ以外は通常通り下にスクロールする
           menuScreenRef.current.scrollBy({ top: clientHeight, behavior: 'smooth' });
-          time = 300
+          time = 300;
         }
         // スクロールが終了した後、フラグをリセット
-        setTimeout(() => {
-          setIsScrolling(false);
-        }, time); // スクロールアニメーションの時間に合わせて調整
+        resetScrolling(time);
       }
       cursor.play();
     } else if (detailScreen && ColumnComponent !== Profile) { // プロフィール以外の詳細画面の場合
       playCursorSound();
-      if (menuScreenRef.current) { // 十字キー（下）で画面をスクロール
-        menuScreenRef.current.scrollBy({ top: 80, behavior: 'smooth' });
+      if (menuScreenRef.current && !isScrolling) { // 十字キー（下）で画面をスクロール
+        setIsScrolling(true);
+        const { scrollTop } = menuScreenRef.current; // 現在のスクロール位置
+        const scrollHeight = menuScreenRef.current.scrollHeight; // 全体の高さ
+        const clientHeight = menuScreenRef.current.clientHeight; // 表示領域の高さ
+
+        if (scrollTop + clientHeight >= scrollHeight) {
+          menuScreenRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+          time = skills.length * 80 // 成果物の数に応じて待機時間を調整
+          resetScrolling(time);
+        } else {
+          menuScreenRef.current.scrollBy({ top: 80, behavior: 'smooth' });
+          setIsScrolling(false);
+        }
       }
     }
   };
-  // 十字キー（左）
+  // ===== 十字キー（左） ===== //
   const leftBottomClick = () => {
     if (showReturnTitle) { // リターン画面の場合
       cursor.play();
@@ -320,7 +359,7 @@ const GameBoy = () => {
       }
     }
   }
-  // 十字キー（右）
+  // ===== 十字キー（右） ===== //
   const rightBottomClick = () => {
     if (showReturnTitle) { // リターン画面の場合
       cursor.play();
@@ -334,8 +373,19 @@ const GameBoy = () => {
 
   // ================== バックエンドからデータベースのデータを取得 ================== //
 
-  // 成果物
-  // 十字キーの処理等で成果物の数（products.length）を利用するので、ここで取得し Product コンポーネントに渡す
+  // ===== スキル ===== //
+  // スキル画面でページの端で十字キーを押した場合に逆側にスクロールさせるが
+  // そのスクロール中に別のスクロールを行わないようにするためにここで取得
+  // スキルの数（skills.length）を待機時間の設定に利用し Skill コンポーネントに渡す
+  useEffect(() => {
+    axios.get('http://localhost:3000/skills')
+      .then(response => setSkills(response.data))
+      .catch(error => console.error('Error fetching skills:', error));
+  }, []);
+  // ===== 成果物 ===== //
+  // 成果物画面でページの端で十字キーを押した場合に逆側にスクロールさせるが
+  // そのスクロール中に別のスクロールを行わないようにするためにここで取得
+  // 成果物の数（products.length）を待機時間の設定に利用し Product コンポーネントに渡す
   useEffect(() => {
     axios.get('http://localhost:3000/products')
       .then(response => setProducts(response.data))
@@ -352,7 +402,7 @@ const GameBoy = () => {
               <Title style={screenStyle} />
             ) : menuScreen ? (
               Array.from({ length: columns.length }, (_, index) => index + 1).map(num => (
-                <WorkHistory key={num} item={columns[num - 1]} isHovered={hoveredNum === num} />
+                <WorkHistory key={num} item={columns[num - 1]} isHovered={hoveredMenuNum === num} />
               ))
             ) : showReturnTitle ? (
               <ReturnTitle
@@ -361,7 +411,7 @@ const GameBoy = () => {
               />
             ) : detailScreen ? (
               // メニュー画面にある各項目のコンポーネントを呼び出す
-              <ColumnComponent products={products} hoveredANum={hoveredANum} />
+              <ColumnComponent skills={skills} products={products} hoveredProductNum={hoveredProductNum} />
             ) : (
               <></>
             )}
