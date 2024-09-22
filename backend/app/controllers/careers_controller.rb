@@ -1,6 +1,6 @@
 class CareersController < ApplicationController
   def index
-    @careers = Career.all
-    render json: @careers
+    @careers = Career.includes(:technologies).all
+    render json: @careers, include: :technologies
   end
 end

@@ -42,6 +42,8 @@ const GameBoy = () => {
   const [hoveredMenuNum, setHoveredMenuNum] = useState(1);
   // 成果物画面で現在どの項目を選択しているかを保存する
   const [hoveredProductNum, setHoveredProductNum] = useState(1);
+  // 経歴画面で表示される経歴を保存する
+  const [careers, setCareers] = useState([]);
   // スキル画面で表示されるスキルを保存する
   const [skills, setSkills] = useState([]);
   // 成果物画面で表示される成果物を保存する
@@ -376,6 +378,15 @@ const GameBoy = () => {
 
   // ================== バックエンドからデータベースのデータを取得 ================== //
 
+  // ===== 経歴 ===== //
+  // 経歴画面でページの端で十字キーを押した場合に逆側にスクロールさせるが
+  // そのスクロール中に別のスクロールを行わないようにするためにここで取得
+  // 成果物の数（careers.length）を待機時間の設定に利用し Product コンポーネントに渡す
+  useEffect(() => {
+    axios.get('http://localhost:3000/careers')
+      .then(response => setCareers(response.data))
+      .catch(error => console.error('Error fetching products:', error));
+  }, []);
   // ===== スキル ===== //
   // スキル画面でページの端で十字キーを押した場合に逆側にスクロールさせるが
   // そのスクロール中に別のスクロールを行わないようにするためにここで取得
@@ -414,7 +425,7 @@ const GameBoy = () => {
               />
             ) : detailScreen ? (
               // メニュー画面にある各項目のコンポーネントを呼び出す
-              <ColumnComponent skills={skills} products={products} hoveredProductNum={hoveredProductNum} />
+              <ColumnComponent careers={careers} skills={skills} products={products} hoveredProductNum={hoveredProductNum} />
             ) : (
               <></>
             )}
