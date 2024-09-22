@@ -21,9 +21,9 @@ Skill.create([
 
 # Sample products
 Product.create([
-  { name: 'メルカリ', url: 'https://jp.mercari.com/' },
-  { name: 'Amazon', url: 'https://www.amazon.co.jp/' },
-  { name: 'Yahoo!オークション', url: 'https://auctions.yahoo.co.jp/' },
-  { name: 'Minecraft', url: 'https://www.minecraft.net/ja-jp' },
-  { name: '阿部 寛のホームページ', url: 'http://abehiroshi.la.coocan.jp/' }
+  { name: 'メルカリ', url: 'https://jp.mercari.com/', description: '中古品や不要な物を簡単に売買できるフリマアプリ' },
+  { name: 'Amazon', url: 'https://www.amazon.co.jp/', description: '世界最大級のオンラインショッピングサイト。幅広い商品を取り扱う' },
+  { name: 'Yahoo!オークション', url: 'https://auctions.yahoo.co.jp/', description: '日本最大のオークションサイト。個人間で商品を売買できる' },
+  { name: 'Minecraft', url: 'https://www.minecraft.net/ja-jp', description: 'ブロックを使って自由に世界を作れるサンドボックス型の人気ゲーム' },
+  { name: '阿部 寛のホームページ', url: 'http://abehiroshi.la.coocan.jp/', description: '俳優・阿部寛さんの個人運営による話題のホームページ' }
 ])
