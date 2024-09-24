@@ -1,22 +1,12 @@
-import "../style/CareerItem.css";
+import CareerItem from './CareerItem';
 
 const Career = (props) => {
   const {careers} = props;
 
   return (
-    <div className="hoge">
+    <div>
       {careers.map(career => (
-        <div>
-          <p>{career.project_name}</p>
-          <p>{career.start_date}</p>
-          <p>{career.end_date}</p>
-          <p>{career.description}</p>
-          <ul>
-            {career.technologies.map(tech => (
-              <li key={tech.id}>{tech.name}</li>
-            ))}
-          </ul>
-        </div>
+        <CareerItem key={career.id} career={career} />
       ))}
     </div>
   );
