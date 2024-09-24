@@ -37,27 +37,49 @@ Career.create([
 ])
 
 # Sample technologies
-Technology.create([
+technologies = Technology.create([
+  # フロントエンド技術
   { name: 'HTML' },
-  { name: 'CSS'  },
+  { name: 'CSS' },
   { name: 'JavaScript' },
+  { name: 'React' },
+  { name: 'JQuery' },
+
+  # バックエンド技術
   { name: 'Python' },
   { name: 'Ruby' },
   { name: 'Rails' },
-  { name: 'React' }
+  { name: 'Java' },
+
+  # データベース
+  { name: 'MySQL' },
+  { name: 'PostgreSQL' },
+  { name: 'SQLite' },
+
+  # ツール・プラットフォーム
+  { name: 'AWS' },
+  { name: 'Docker' },
+  { name: 'Figma' },
+  { name: 'Github' },
+  { name: 'Notion' },
+
+  # OS
+  { name: 'Linux' },
+  { name: 'Mac' },
+  { name: 'Windows' }
 ])
 
 CareerTechnology.create([
-  { career_id: 1, technology_id: 5 },
-  { career_id: 1, technology_id: 3 },
-  { career_id: 1, technology_id: 6 },
-  { career_id: 1, technology_id: 7 },
-  { career_id: 2, technology_id: 3 },
-  { career_id: 2, technology_id: 7 },
-  { career_id: 3, technology_id: 5 },
-  { career_id: 3, technology_id: 6 },
-  { career_id: 4, technology_id: 1 },
-  { career_id: 4, technology_id: 2 },
+  { career_id: 1, technology_id: technologies.find { |t| t.name == 'Ruby' }.id },
+  { career_id: 1, technology_id: technologies.find { |t| t.name == 'JavaScript' }.id },
+  { career_id: 1, technology_id: technologies.find { |t| t.name == 'Rails' }.id },
+  { career_id: 1, technology_id: technologies.find { |t| t.name == 'React' }.id },
+  { career_id: 2, technology_id: technologies.find { |t| t.name == 'JavaScript' }.id },
+  { career_id: 2, technology_id: technologies.find { |t| t.name == 'React' }.id },
+  { career_id: 3, technology_id: technologies.find { |t| t.name == 'Ruby' }.id },
+  { career_id: 3, technology_id: technologies.find { |t| t.name == 'Rails' }.id },
+  { career_id: 4, technology_id: technologies.find { |t| t.name == 'HTML' }.id },
+  { career_id: 4, technology_id: technologies.find { |t| t.name == 'CSS' }.id },
 ])
 
 # Sample skills
