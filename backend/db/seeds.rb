@@ -9,7 +9,7 @@ Profile.create(
 )
 
 # Sample careers
-Career.create([
+careers = Career.create([
   {
     project_name: "タスク管理アプリケーションの開発",
     start_date: "2022-01-01",
@@ -69,18 +69,20 @@ technologies = Technology.create([
   { name: 'Windows' }
 ])
 
-CareerTechnology.create([
-  { career_id: 1, technology_id: technologies.find { |t| t.name == 'Ruby' }.id },
-  { career_id: 1, technology_id: technologies.find { |t| t.name == 'JavaScript' }.id },
-  { career_id: 1, technology_id: technologies.find { |t| t.name == 'Rails' }.id },
-  { career_id: 1, technology_id: technologies.find { |t| t.name == 'React' }.id },
-  { career_id: 2, technology_id: technologies.find { |t| t.name == 'JavaScript' }.id },
-  { career_id: 2, technology_id: technologies.find { |t| t.name == 'React' }.id },
-  { career_id: 3, technology_id: technologies.find { |t| t.name == 'Ruby' }.id },
-  { career_id: 3, technology_id: technologies.find { |t| t.name == 'Rails' }.id },
-  { career_id: 4, technology_id: technologies.find { |t| t.name == 'HTML' }.id },
-  { career_id: 4, technology_id: technologies.find { |t| t.name == 'CSS' }.id },
-])
+# Sample career_technologies
+career_technologies = {
+  'タスク管理アプリケーションの開発' => ['Ruby', 'JavaScript', 'Rails', 'React'],
+  'オンライン教育プラットフォームの構築' => ['JavaScript', 'React'],
+  'eコマースサイトのリニューアル' => ['Ruby', 'Rails'],
+  '社内情報共有システムの開発' => ['HTML', 'CSS']
+}
+career_technologies.each do |project_name, tech_names|
+  career_id = careers.find { |c| c.project_name == project_name }.id
+  tech_names.each do |tech_name|
+    technology_id = technologies.find { |t| t.name == tech_name }.id
+    CareerTechnology.create(career_id: career_id, technology_id: technology_id)
+  end
+end
 
 # Sample skills
 skill_data = {
