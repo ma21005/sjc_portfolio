@@ -56,11 +56,14 @@
 
   .project_tech_stack_container {
     width: 100%;
-    margin: 6px auto 12px auto !important;
+    margin: 0 auto 8px auto !important;
+    padding: 5px 0 !important;
+    background-color: rgb(85, 89, 93);
+    border-radius: 9px;
   }
 
   .tech_stack {
-    width: 45px;
-    height: 45px;
-    margin: 0 3px;
+    width: 22%;
+    height: 22%;
+    margin: 1.5% 1.5%;
   }

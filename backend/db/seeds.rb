@@ -71,10 +71,10 @@ technologies = Technology.create([
 
 # Sample career_technologies
 career_technologies = {
-  'タスク管理アプリケーションの開発' => ['Ruby', 'JavaScript', 'Rails', 'React'],
-  'オンライン教育プラットフォームの構築' => ['JavaScript', 'React'],
-  'eコマースサイトのリニューアル' => ['Ruby', 'Rails'],
-  '社内情報共有システムの開発' => ['HTML', 'CSS']
+  'タスク管理アプリケーションの開発' => ['Ruby', 'JavaScript', 'Rails', 'React', 'PostgreSQL', 'AWS', 'Docker', 'Linux'],
+  'オンライン教育プラットフォームの構築' => ['JavaScript', 'React', 'MySQL', 'Figma', 'Linux'],
+  'eコマースサイトのリニューアル' => ['Ruby', 'Rails', 'SQLite', 'Notion', 'Mac'],
+  '社内情報共有システムの開発' => ['HTML', 'CSS', 'SQLite', 'Github', 'Windows']
 }
 career_technologies.each do |project_name, tech_names|
   career_id = careers.find { |c| c.project_name == project_name }.id
