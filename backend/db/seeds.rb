@@ -83,15 +83,19 @@ CareerTechnology.create([
 ])
 
 # Sample skills
-Skill.create([
-  { skill_type: 'Ruby', experience: 3.0 },
-  { skill_type: 'Python', experience: 2.0 },
-  { skill_type: 'JavaScript', experience: 1.5 },
-  { skill_type: 'HTML', experience: 2.7 },
-  { skill_type: 'CSS', experience: 5.0 },
-  { skill_type: 'Rails', experience: 3.0 },
-  { skill_type: 'React', experience: 4.5 }
-])
+skill_data = {
+  'Ruby' => 3,
+  'Python' => 2,
+  'JavaScript' => 1,
+  'HTML' => 2,
+  'CSS' => 5,
+  'Rails' => 3,
+  'React' => 4
+}
+skill_data.each do |tech_name, experience|
+  technology = technologies.find { |t| t.name == tech_name }
+  Skill.create(technology_id: technology.id, experience: experience)
+end
 
 # Sample products
 Product.create([

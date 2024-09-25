@@ -1,6 +1,6 @@
 class SkillsController < ApplicationController
   def index
-    @skills = Skill.all
-    render json: @skills
+    @skills = Skill.includes(:technology).all
+    render json: @skills.as_json(include: :technology)
   end
 end
