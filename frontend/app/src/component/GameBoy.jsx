@@ -127,8 +127,6 @@ const GameBoy = () => {
     setTitleScreen(false);
     setMenuScreen(false);
     setDetailScreen(true);
-    setCareerScreen(false);
-    setProductScreen(false);
     setHoveredProductNum(1);
     setShowReturnTitle(false);
     setWasMenuScreen(false);
@@ -309,7 +307,7 @@ const GameBoy = () => {
         resetScrolling(time);
       }
       cursor.play();
-    } else if (detailScreen && ColumnComponent !== Profile) { // 経歴画面とスキル画面の場合
+    } else if (detailScreen && ColumnComponent !== Profile) { // 経歴画面かスキル画面の場合
       playCursorSound();
       if (menuScreenRef.current && !isScrolling) { // 十字キー（上）で画面をスクロール
         setIsScrolling(true);
@@ -359,7 +357,7 @@ const GameBoy = () => {
         resetScrolling(time);
       }
       cursor.play();
-    } else if (detailScreen && ColumnComponent !== Profile) { // 経歴画面とスキル画面の場合
+    } else if (detailScreen && ColumnComponent !== Profile) { // 経歴画面かスキル画面の場合
       playCursorSound();
       if (menuScreenRef.current && !isScrolling) { // 十字キー（下）で画面をスクロール
         setIsScrolling(true);
