@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import WorkHistory from './WorkHistory';
 import Title from './Title'
@@ -28,7 +28,10 @@ const GameBoy = () => {
   // メニュー画面
   const [menuScreen, setMenuScreen] = useState(false);
   // メニュー画面に表示されている各項目の詳細画面
+  // （プロフィール画面、経歴画面、スキル画面、成果物画面のいずれか）
   const [detailScreen, setDetailScreen] = useState(false);
+  // 経歴画面
+  const [careerScreen, setCareerScreen] = useState(false)
   // 成果物画面
   const [productScreen, setProductScreen] = useState(false);
   // タイトル画面に戻るかどうかを選べる画面（以降：リターン画面）
@@ -90,6 +93,49 @@ const GameBoy = () => {
   basicBGMRef.current.loop = true;
 
 
+  // ================== 画面遷移時のState設定 ================== //
+
+  // タイトル画面遷移時に各stateをリセット
+  const setTitleScreenStates = () => {
+    setTitleScreen(true);
+    setMenuScreen(false);
+    setDetailScreen(false);
+    setCareerScreen(false);
+    setProductScreen(false);
+    setHoveredMenuNum(1);
+    setHoveredProductNum(1);
+    setShowReturnTitle(false);
+    setWasMenuScreen(false);
+    setSelectedOption("yes");
+  };
+
+  // メニュー画面遷移時の各state設定
+  const setMenuScreenStates = () => {
+    setTitleScreen(false);
+    setMenuScreen(true);
+    setDetailScreen(false);
+    setCareerScreen(false);
+    setProductScreen(false);
+    setHoveredProductNum(1);
+    setShowReturnTitle(false);
+    setWasMenuScreen(false);
+    setSelectedOption("yes");
+  };
+
+  // 詳細画面遷移時の各state設定
+  const setDetailScreenStates = () => {
+    setTitleScreen(false);
+    setMenuScreen(false);
+    setDetailScreen(true);
+    setCareerScreen(false);
+    setProductScreen(false);
+    setHoveredProductNum(1);
+    setShowReturnTitle(false);
+    setWasMenuScreen(false);
+    setSelectedOption("yes");
+  };
+
+
   // ================== ボタンクリック時の挙動 ================== //
 
   // ===== 電源ボタン ===== //
@@ -100,14 +146,7 @@ const GameBoy = () => {
       titleBGMRef.current.pause();
       titleBGMRef.current.currentTime = 0;
       powerOff.play();
-      setTitleScreen(true); // 各Stateをリセット
-      setMenuScreen(false);
-      setDetailScreen(false);
-      setProductScreen(false);
-      setHoveredMenuNum(1);
-      setHoveredProductNum(1);
-      setShowReturnTitle(false);
-      setSelectedOption("yes");
+      setTitleScreenStates();
     } else { // 電源オフの場合
       powerOn.play();
       titleBGMRef.current.play();
@@ -139,38 +178,31 @@ const GameBoy = () => {
 
     if (titleScreen) { // タイトル画面の場合
         titleScreenButton.play();
-        setMenuScreen(true);
-        setTitleScreen(false);
+        setMenuScreenStates();
         titleBGMRef.current.pause();
         titleBGMRef.current.currentTime = 0;
         basicBGMRef.current.play();
     } else if (menuScreen) { // メニュー画面の場合
         menuScreenButton.play();
-        setDetailScreen(true);
-        setMenuScreen(false);
-        setShowReturnTitle(false);
+        setDetailScreenStates();
         if (columns[hoveredMenuNum - 1] === 'PRODUCT') {
           setProductScreen(true); // 成果物画面への遷移を保存
+        } else if (columns[hoveredMenuNum - 1] === 'CAREER') {
+          setCareerScreen(true); // 経歴画面への遷移を保存
         }
     } else if (showReturnTitle) { // リターン画面の場合
       if (selectedOption === "yes") {
         menuScreenButton.play();
-        setTitleScreen(true);
-        setShowReturnTitle(false);
-        setHoveredMenuNum(1);
-        setHoveredProductNum(1);
+        setTitleScreenStates();
         basicBGMRef.current.pause();
         basicBGMRef.current.currentTime = 0;
         titleBGMRef.current.play();
       } else if (selectedOption === "no") {
         menuScreenButton.play();
-        setShowReturnTitle(false);
-        setSelectedOption("yes");
-        setHoveredProductNum(1);
-        if (wasMenuScreen) {
-          setMenuScreen(true);
+        if (wasMenuScreen) { // 前画面（メニュー画面 or 詳細画面）に戻る
+          setMenuScreenStates();
         } else {
-          setDetailScreen(true);
+          setDetailScreenStates();
         }
       }
     } else if (productScreen) { // 成果物画面の場合
@@ -184,29 +216,20 @@ const GameBoy = () => {
 
     if (titleScreen) { // タイトル画面の場合
         titleScreenButton.play();
-        setMenuScreen(true);
-        setTitleScreen(false);
+        setMenuScreenStates();
         titleBGMRef.current.pause();
         titleBGMRef.current.currentTime = 0;
         basicBGMRef.current.play();
     } else if (showReturnTitle) { // リターン画面の場合
       detailScreenBButton.play();
-      setShowReturnTitle(false);
-      setSelectedOption("yes");
-      setHoveredProductNum(1)
       if (wasMenuScreen) {
-        setMenuScreen(true);
+        setMenuScreenStates();
       } else {
-        setDetailScreen(true);
+        setDetailScreenStates();
       }
-      setWasMenuScreen(false);
     } else if (detailScreen) { // 詳細画面の場合
       detailScreenBButton.play();
-      setDetailScreen(false);
-      setMenuScreen(true);
-      setShowReturnTitle(false);
-      setHoveredProductNum(1);
-      setProductScreen(false)
+      setMenuScreenStates();
     }
   };
   // ===== セレクトボタン ===== //
@@ -215,17 +238,15 @@ const GameBoy = () => {
 
     if (showReturnTitle) { // 既に リターン画面 の場合は前の画面に戻る
       menuScreenButton.play();
-      setShowReturnTitle(false);
-      setSelectedOption("yes");
       if (wasMenuScreen) {
-        setMenuScreen(true);
+        setMenuScreenStates();
       } else {
-        setDetailScreen(true);
+        setDetailScreenStates();
       }
-    } else if (!titleScreen) { // タイトル画面 以外の場合は リターン画面 を表示させて前の画面情報を保存
+    } else if (!titleScreen) { // タイトル画面 以外の場合は リターン画面 を表示
       menuScreenButton.play();
       setShowReturnTitle(true);
-      if (menuScreen) {
+      if (menuScreen) { // 前の画面に戻れるよう状態も保存しておく
         setMenuScreen(false);
         setWasMenuScreen(true);
       } else {
@@ -288,7 +309,7 @@ const GameBoy = () => {
         resetScrolling(time);
       }
       cursor.play();
-    } else if (detailScreen && ColumnComponent !== Profile) { // プロフィール以外の詳細画面の場合
+    } else if (detailScreen && ColumnComponent !== Profile) { // 経歴画面とスキル画面の場合
       playCursorSound();
       if (menuScreenRef.current && !isScrolling) { // 十字キー（上）で画面をスクロール
         setIsScrolling(true);
@@ -298,7 +319,11 @@ const GameBoy = () => {
         if (scrollTop === 0) {
           // 一番上で十字キー（上）を押した場合は一番下までスクロール
           menuScreenRef.current.scrollTo({ top: scrollHeight, behavior: 'smooth' });
-          time = skills.length * 80; // 成果物の数に応じて待機時間を調整
+          if (careerScreen) {
+            time = careers.length * 170 // 成果物の数に応じて待機時間を調整
+          } else {
+            time = skills.length * 80 // スキルの数に応じて待機時間を調整
+          }
           resetScrolling(time);
         } else {
           // 通常通り上にスクロール
@@ -334,7 +359,7 @@ const GameBoy = () => {
         resetScrolling(time);
       }
       cursor.play();
-    } else if (detailScreen && ColumnComponent !== Profile) { // プロフィール以外の詳細画面の場合
+    } else if (detailScreen && ColumnComponent !== Profile) { // 経歴画面とスキル画面の場合
       playCursorSound();
       if (menuScreenRef.current && !isScrolling) { // 十字キー（下）で画面をスクロール
         setIsScrolling(true);
@@ -344,7 +369,11 @@ const GameBoy = () => {
 
         if (scrollTop + clientHeight >= scrollHeight) {
           menuScreenRef.current.scrollTo({ top: 0, behavior: 'smooth' });
-          time = skills.length * 80 // 成果物の数に応じて待機時間を調整
+          if (careerScreen) {
+            time = careers.length * 170 // 成果物の数に応じて待機時間を調整
+          } else {
+            time = skills.length * 80 // スキルの数に応じて待機時間を調整
+          }
           resetScrolling(time);
         } else {
           menuScreenRef.current.scrollBy({ top: 80, behavior: 'smooth' });
