@@ -31,7 +31,11 @@ const GameBoy = () => {
   // （プロフィール画面、経歴画面、スキル画面、成果物画面のいずれか）
   const [detailScreen, setDetailScreen] = useState(false);
   // 経歴画面
-  const [careerScreen, setCareerScreen] = useState(false)
+  const [careerScreen, setCareerScreen] = useState(false);
+  // 経歴画面とスキル画面でページトップかどうかを保存する
+  const [pageTop, setPageTop] = useState(true);
+  // 経歴画面とスキル画面でページボトムかどうかを保存する
+  const [pageBottom, setPageBottom] = useState(false);
   // 成果物画面
   const [productScreen, setProductScreen] = useState(false);
   // タイトル画面に戻るかどうかを選べる画面（以降：リターン画面）
@@ -101,6 +105,8 @@ const GameBoy = () => {
     setMenuScreen(false);
     setDetailScreen(false);
     setCareerScreen(false);
+    setPageTop(true);
+    setPageBottom(false);
     setProductScreen(false);
     setHoveredMenuNum(1);
     setHoveredProductNum(1);
@@ -115,6 +121,8 @@ const GameBoy = () => {
     setMenuScreen(true);
     setDetailScreen(false);
     setCareerScreen(false);
+    setPageTop(true);
+    setPageBottom(false);
     setProductScreen(false);
     setHoveredProductNum(1);
     setShowReturnTitle(false);
@@ -127,6 +135,8 @@ const GameBoy = () => {
     setTitleScreen(false);
     setMenuScreen(false);
     setDetailScreen(true);
+    setPageTop(true);
+    setPageBottom(false);
     setHoveredProductNum(1);
     setShowReturnTitle(false);
     setWasMenuScreen(false);
@@ -317,6 +327,8 @@ const GameBoy = () => {
         if (scrollTop === 0) {
           // 一番上で十字キー（上）を押した場合は一番下までスクロール
           menuScreenRef.current.scrollTo({ top: scrollHeight, behavior: 'smooth' });
+          setPageBottom(true);
+          setPageTop(false);
           if (careerScreen) {
             time = careers.length * 170 // 成果物の数に応じて待機時間を調整
           } else {
@@ -327,6 +339,15 @@ const GameBoy = () => {
           // 通常通り上にスクロール
           menuScreenRef.current.scrollBy({ top: -80, behavior: 'smooth' });
           setIsScrolling(false);
+          setTimeout(() => {
+            const newScrollTop = menuScreenRef.current.scrollTop;
+            if (newScrollTop === 0) {
+              setPageTop(true);
+            } else {
+              setPageTop(false);
+              setPageBottom(false);
+            }
+          }, 200);
         }
       }
     }
@@ -367,6 +388,8 @@ const GameBoy = () => {
 
         if (scrollTop + clientHeight >= scrollHeight) {
           menuScreenRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+          setPageTop(true);
+          setPageBottom(false);
           if (careerScreen) {
             time = careers.length * 170 // 成果物の数に応じて待機時間を調整
           } else {
@@ -376,6 +399,15 @@ const GameBoy = () => {
         } else {
           menuScreenRef.current.scrollBy({ top: 80, behavior: 'smooth' });
           setIsScrolling(false);
+          setTimeout(() => {
+            const newScrollTop = menuScreenRef.current.scrollTop;
+            if (newScrollTop + clientHeight >= scrollHeight) {
+              setPageBottom(true);
+            } else {
+              setPageTop(false);
+              setPageBottom(false);
+            }
+          }, 200);
         }
       }
     }
@@ -452,7 +484,7 @@ const GameBoy = () => {
               />
             ) : detailScreen ? (
               // メニュー画面にある各項目のコンポーネントを呼び出す
-              <ColumnComponent careers={careers} skills={skills} products={products} hoveredProductNum={hoveredProductNum} />
+              <ColumnComponent careers={careers} skills={skills} products={products} hoveredProductNum={hoveredProductNum} pageTop={pageTop} pageBottom={pageBottom}/>
             ) : (
               <></>
             )}
