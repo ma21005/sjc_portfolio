@@ -365,7 +365,7 @@ const GameBoy = () => {
         const scrollHeight = menuScreenRef.current.scrollHeight; // 全体の高さ
         const clientHeight = menuScreenRef.current.clientHeight; // 表示領域の高さ
 
-        if (scrollTop + clientHeight >= scrollHeight) {
+        if (scrollTop + clientHeight >= scrollHeight - 1) {
           menuScreenRef.current.scrollTo({ top: 0, behavior: 'smooth' });
           if (careerScreen) {
             time = careers.length * 170 // 成果物の数に応じて待機時間を調整
