@@ -1,7 +1,17 @@
-### 構成
-![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/e696d93c-0134-4d99-ac59-33e3d847a784)
+## SJC_PORTFOLIO 2024
+https://happytreesun0513.com/
 
-### 使用技術
+**※上記エンドポイントアクセス後に EC2 インスタンスを起動するので、画面が表示されるまでに30秒程度かかります**
+
+![image](https://github.com/user-attachments/assets/7bc775de-dfc2-4821-bbb6-3cfe44072011)
+
+
+
+## 構成
+---
+![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/48282696-a3bc-4724-9148-0cced119c1b2)
+
+## 使用技術
 ```
 Ruby 3.1.3
 Ruby on Rails 7.0.8
@@ -11,8 +21,7 @@ Docker/Docker-compose
 ```
 
 
-### 動作手順
-
+## ローカルでの動作手順
 1.
 ```
 git clone https://github.com/ma21005/sjc_portfolio.git
@@ -35,7 +44,6 @@ docker-compose exec api bin/rails db:seed
 3. http://localhost:3001/ にアクセス
 
 
-### クレジット情報
-
+## クレジット情報
 - 背景画像： [Freepik](https://jp.freepik.com/free-photo/flat-lay-desk-arrangement-with-copy-space_13523365.htm#query=%E6%9C%BA%E3%81%AE%E4%B8%8A&position=2&from_view=keyword&track=ais&uuid=5d5dda67-b9ac-430f-a6fa-2c57dda79f84)
 - サウンド： [甘茶の音楽工房](https://amachamusic.chagasi.com), [効果音ラボ](https://soundeffect-lab.info)
