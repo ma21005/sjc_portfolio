@@ -1,3 +1,6 @@
+### 構成
+![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/e696d93c-0134-4d99-ac59-33e3d847a784)
+
 ### 使用技術
 ```
 Ruby 3.1.3
