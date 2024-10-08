@@ -8,7 +8,6 @@ https://happytreesun0513.com/
 
 
 ## 構成
----
 ![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/48282696-a3bc-4724-9148-0cced119c1b2)
 
 ## 使用技術
