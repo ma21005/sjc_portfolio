@@ -6,7 +6,7 @@ https://happytreesun0513.com/
 ![image](https://github.com/user-attachments/assets/7bc775de-dfc2-4821-bbb6-3cfe44072011)
 
 ## How To Use
-<img src="https://github.com/user-attachments/assets/250b5d55-ef89-4fda-8ae4-851bf3aea1a1" width="1000" alt="sjc_portfolio_manual drawio">
+<img src="https://github.com/user-attachments/assets/8634f3d1-b705-4359-92e6-8d5f85c9fd3b" width="1000" alt="sjc_portfolio_manual drawio">
 
 ## 構成
 ![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/48282696-a3bc-4724-9148-0cced119c1b2)
