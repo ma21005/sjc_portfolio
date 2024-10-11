@@ -10,6 +10,10 @@ https://happytreesun0513.com/
 ## 構成
 ![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/48282696-a3bc-4724-9148-0cced119c1b2)
 
+<img src="https://github.com/user-attachments/assets/1b482ab7-9ba8-449d-b6b0-508ae8f7c3ac" width="800" alt="backend_development - public">
+
+
+
 ## 使用技術
 ```
 Ruby 3.1.3
