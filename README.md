@@ -5,14 +5,13 @@ https://happytreesun0513.com/
 
 ![image](https://github.com/user-attachments/assets/7bc775de-dfc2-4821-bbb6-3cfe44072011)
 
-
+## How To Use
+<img src="https://github.com/user-attachments/assets/250b5d55-ef89-4fda-8ae4-851bf3aea1a1" width="1000" alt="sjc_portfolio_manual drawio">
 
 ## 構成
 ![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/48282696-a3bc-4724-9148-0cced119c1b2)
 
-<img src="https://github.com/user-attachments/assets/1b482ab7-9ba8-449d-b6b0-508ae8f7c3ac" width="800" alt="backend_development - public">
-
-
+<img src="https://github.com/user-attachments/assets/1b482ab7-9ba8-449d-b6b0-508ae8f7c3ac" width="600" alt="backend_development - public">
 
 ## 使用技術
 ```
