@@ -320,7 +320,7 @@ const GameBoy = () => {
           if (careerScreen) {
             time = careers.length * 170 // 成果物の数に応じて待機時間を調整
           } else {
-            time = skills.length * 80 // スキルの数に応じて待機時間を調整
+            time = skills.length * 60 // スキルの数に応じて待機時間を調整
           }
           resetScrolling(time);
         } else {
@@ -370,7 +370,7 @@ const GameBoy = () => {
           if (careerScreen) {
             time = careers.length * 170 // 成果物の数に応じて待機時間を調整
           } else {
-            time = skills.length * 80 // スキルの数に応じて待機時間を調整
+            time = skills.length * 60 // スキルの数に応じて待機時間を調整
           }
           resetScrolling(time);
         } else {
