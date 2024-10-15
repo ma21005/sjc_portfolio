@@ -8,12 +8,13 @@ https://happytreesun0513.com/
 ## How To Use
 <img src="https://github.com/user-attachments/assets/8634f3d1-b705-4359-92e6-8d5f85c9fd3b" width="1000" alt="sjc_portfolio_manual drawio">
 
-## 構成
-![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/48282696-a3bc-4724-9148-0cced119c1b2)
+## Architecture Diagram
+![sjc_portfolio_aws drawio](https://github.com/user-attachments/assets/d7213a36-aba7-42d8-aab0-a5ade1ccb7b5)
 
+## ER Diagram
 <img src="https://github.com/user-attachments/assets/1b482ab7-9ba8-449d-b6b0-508ae8f7c3ac" width="600" alt="backend_development - public">
 
-## 使用技術
+## Technologies Stack
 ```
 Ruby 3.1.3
 Ruby on Rails 7.0.8
@@ -23,7 +24,7 @@ Docker/Docker-compose
 ```
 
 
-## ローカルでの動作手順
+## Getting Started
 1.
 ```
 git clone https://github.com/ma21005/sjc_portfolio.git
