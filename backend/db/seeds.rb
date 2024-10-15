@@ -86,13 +86,26 @@ end
 
 # Sample skills
 skill_data = {
-  'Ruby' => 3,
-  'Python' => 2,
-  'JavaScript' => 1,
   'HTML' => 2,
   'CSS' => 5,
+  'Java' => 2,
+  'JavaScript' => 1,
+  'JQuery' => 2,
+  'Ruby' => 3,
+  'Python' => 2,
   'Rails' => 3,
-  'React' => 4
+  'React' => 4,
+  'MySQL' => 1,
+  'PostgreSQL' => 4,
+  'SQLite' => 5,
+  'AWS' => 3,
+  'Docker' => 2,
+  'Figma' => 1,
+  'Github' => 3,
+  'Notion' => 2,
+  'Windows' => 3,
+  'Linux' => 3,
+  'Mac' => 1
 }
 skill_data.each do |tech_name, experience|
   technology = technologies.find { |t| t.name == tech_name }
