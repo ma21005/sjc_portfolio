@@ -4,10 +4,10 @@
 【移行先のURL】
 https://202429d8.sjc-portfolio-pages.pages.dev/
 
-【リポジトリ】
+【リポジトリ】https://github.com/ma21005/sjc_portfolio_pages
 
 
-### 移行する前（AWS）のREADME
+### ====== 移行する前（AWS）のREADME ======
 
 https://happytreesun0513.com/
 
