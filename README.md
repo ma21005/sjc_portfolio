@@ -1,4 +1,14 @@
 ## SJC_PORTFOLIO 2024
+**AWS → Cloudflare に移行しました**
+
+【移行先のURL】
+https://202429d8.sjc-portfolio-pages.pages.dev/
+
+【リポジトリ】
+
+
+### 移行する前（AWS）のREADME
+
 https://happytreesun0513.com/
 
 **※上記エンドポイントアクセス後に EC2 インスタンスを起動するので、画面が表示されるまでに30秒程度かかります**
